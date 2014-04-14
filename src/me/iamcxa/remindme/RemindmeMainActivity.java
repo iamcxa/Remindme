@@ -3,13 +3,11 @@
  */
 package me.iamcxa.remindme;
 
-import java.security.PublicKey;
 import java.util.Locale;
 
-import me.iamcxa.remindme.cardset.BaseFragment;
-import me.iamcxa.remindme.cardset.ListCursorCardFragment;
-import me.iamcxa.remindme.fragment.CardViewFragment;
-import me.iamcxa.remindme.fragment.ListviewFragment;
+import me.iamcxa.remindme.cardfragment.CardFragmentContainer;
+import me.iamcxa.remindme.cardfragment.ListCursorCardFragment;
+import me.iamcxa.remindme.cardfragment.ListviewFragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +20,6 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.widget.SearchView;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
@@ -33,86 +30,119 @@ import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
  * @author cxa Main Activity
  */
 public class RemindmeMainActivity extends FragmentActivity {
-
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * Variables * *
-	 * ************************************************************
-	 * **********************************
-	 */
-    //Used in savedInstanceState
-    private static String BUNDLE_SELECTEDFRAGMENT = "BDL_SELFRG";
-	private PagerSlidingTabStrip tabs;
-	private ViewPager pager;
-	public MyPagerAdapter adapter;
-	private ShareActionProvider mShareActionProvider;
+	/**********************/
+	/** Variables LOCALE **/
+	/**********************/
+	// Used in savedInstanceState
+	private static String BUNDLE_SELECTEDFRAGMENT = null;
+	private static PagerSlidingTabStrip tabs;
+	private static ViewPager pager;
+	public static MyPagerAdapter adapter;
+	private static ShareActionProvider mShareActionProvider;
 	// private Intent mShareIntent;
-	private SearchView mSearchView;
+	private static SearchView mSearchView;
 
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * onCreate 啟動區段 * *
-	 * ********************************************************
-	 * **************************************
-	 */
+	/**********************/
+	/** onCreate LOCALE **/
+	/**********************/
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		// 設定：頁面元件
 		setViewComponent();
 
-		// -----------------------------------------------------------------
-		// BaseFragment baseFragment = null;
 		if (savedInstanceState != null) {
 			replaceFragment();
 		}
+	}
 
-		// -----------------------------------------------------------------
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		//outState.putInt(BUNDLE_SELECTEDFRAGMENT, pager.getCurrentItem());
 
 	}
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(BUNDLE_SELECTEDFRAGMENT,pager.getCurrentItem());
-		Toast.makeText(getApplication(), BUNDLE_SELECTEDFRAGMENT+","+pager.getCurrentItem()+adapter.toString(), 200).show();
-    }
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * setViewComponent 區段, 設定：頁面元件 * *
-	 * *****************************************
-	 * *****************************************************
-	 */
-	private void setViewComponent() {
-		// 設定：layout視圖
-		setContentView(R.layout.activity_main);
-
-		// 定義：tabs
-		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-		pager = (ViewPager) findViewById(R.id.pager);
-		adapter = new MyPagerAdapter(getSupportFragmentManager());
-
-		// 設定：頁面margin
-		final int pageMargin = (int) TypedValue.applyDimension(
-				TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
-						.getDisplayMetrics());
-		pager.setPageMargin(pageMargin);
-
-		// 設定：tab與page之adapter
-		pager.setAdapter(adapter);
-		tabs.setViewPager(pager);
+	/**********************/
+	/** replaceFragment **/
+	/**********************/
+	// To ensure the target frame will show the right fragment.
+	private void replaceFragment() {
+		android.app.FragmentManager fragmentManager = getFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		ListCursorCardFragment cardview = new ListCursorCardFragment();
+		fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		//fragmentTransaction.add(R.id.fragment_main, cardview);
+		fragmentTransaction.replace(R.id.fragment_main, cardview);
+		fragmentTransaction.commit();
 	}
 
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * onCreateOptionsMenu 區段, 設定：Action Bar上之按鈕 * *
-	 * ****************************
-	 * ******************************************************************
-	 */
+	/**************************/
+	/** Class MyPagerAdapter **/
+	/**************************/
+	public class MyPagerAdapter extends FragmentPagerAdapter {
+		// 定義各tab名稱
+		private final int[] TITLES = { R.string.tab1, R.string.tab2,R.string.tab3 };
+
+		public MyPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		// This displays tab names and how to switch, if you remove a tab,
+		// remove its case below but make sure to keep the order (0,1,2)
+		@Override
+		public CharSequence getPageTitle(int position) {
+			Locale l = Locale.getDefault();
+			switch (position) {
+			case 0:
+				return getString(R.string.tab1).toUpperCase(l);
+			case 1:
+				return getString(R.string.tab2).toUpperCase(l);
+			case 2:
+				return getString(R.string.tab3).toUpperCase(l);
+			}
+			return null;
+		}
+
+		// These are the tabs in the main display, if you remove a tab
+		// (fragment) you must remove it from below. also, ensure you keep the
+		// cases in order or it will not know what to do
+		@Override
+		public Fragment getItem(int position) {
+			Fragment f = new Fragment();
+			switch (position) {
+			case 0:
+				f = new CardFragmentContainer();
+				replaceFragment();
+				break;
+			case 1:
+				f = new ListviewFragment();
+				break;
+			case 2:
+				f = new ListviewFragment();
+				break;
+			}
+			return f;
+		}
+
+		@Override
+		public int getCount() {
+			return TITLES.length;
+		}
+
+		// *Experiment* To get a fragment's position.
+		public int getPosition(Object object) {
+			return getItemPosition(object);
+
+		}
+
+	}
+
+	/**********************/
+	/** onCreateOptionsMenu **/
+	/**********************/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// 由main_activity_actionbar.xml讀取按鈕資訊
@@ -156,14 +186,34 @@ public class RemindmeMainActivity extends FragmentActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * OnMenuItemClickListener:btnActionAddClick 區段, 設定ActionBar上新增按鈕動作 * *
-	 * *****
-	 * *********************************************************************
-	 * ********************
-	 */
+	/**********************/
+	/** setViewComponent **/
+	/**********************/
+	private void setViewComponent() {
+
+		// 設定：layout視圖
+		setContentView(R.layout.activity_main);
+
+		// 定義：tabs
+		tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+		pager = (ViewPager) findViewById(R.id.pager);
+		adapter = new MyPagerAdapter(getSupportFragmentManager());
+
+		// 設定：頁面margin
+		final int pageMargin = (int) TypedValue.applyDimension(
+				TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
+						.getDisplayMetrics());
+		pager.setPageMargin(pageMargin);
+
+		// 設定：tab與page之adapter
+		pager.setAdapter(adapter);
+		tabs.setViewPager(pager);
+
+	}
+
+	/**********************/
+	/** btnActionAddClick **/
+	/**********************/
 	private MenuItem.OnMenuItemClickListener btnActionAddClick = new MenuItem.OnMenuItemClickListener() {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
@@ -176,26 +226,25 @@ public class RemindmeMainActivity extends FragmentActivity {
 		}
 	};
 
+	/**********************/
+	/** btnRefreshAddClick **/
+	/**********************/
 	private MenuItem.OnMenuItemClickListener btnRefreshAddClick = new MenuItem.OnMenuItemClickListener() {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 			Toast.makeText(getApplication(), item.getTitle(),
 					Toast.LENGTH_SHORT).show();
-			Intent intent = new Intent();
-			intent.setClass(getApplication(), testcard.class);
-			startActivity(intent);
+			//Intent intent = new Intent();
+			// intent.setClass(getApplication(), testcard.class);
+			//startActivity(intent);
+			replaceFragment();
 			return false;
 		}
 	};
 
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * OnMenuItemClickListener:menuActionPrefClick區段, 設定ActionBar上設定按鈕動作 * *
-	 * ****
-	 * **********************************************************************
-	 * ********************
-	 */
+	/**********************/
+	/** menuActionPrefClick **/
+	/**********************/
 	private MenuItem.OnMenuItemClickListener menuActionPrefClick = new MenuItem.OnMenuItemClickListener() {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
@@ -212,102 +261,11 @@ public class RemindmeMainActivity extends FragmentActivity {
 		}
 	};
 
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * OsetupSearchView區段, 設定ActionBar上搜尋按鈕啟動後之動作 * *
-	 * ***************************
-	 * *******************************************************************
-	 */
+	/**********************/
+	/** OsetupSearchView **/
+	/**********************/
 	private void setupSearchView(MenuItem searchItem) {
 		// TODO Auto-generated method stub
 
-	}
-
-	private void replaceFragment() {
-		android.app.FragmentManager fragmentManager = getFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		ListCursorCardFragment fragment11 = new ListCursorCardFragment();
-		fragmentTransaction.replace(R.id.fragment_main, fragment11);
-		fragmentTransaction.addToBackStack(null);
-		fragmentTransaction.commit();
-	}
-
-	/*
-	 * ********************************************************************************************** *
-	 * *
-	 * MyPagerAdapter類別, 定義activiry上之tab/pager * *
-	 * ******************************
-	 * ****************************************************************
-	 */
-	public class MyPagerAdapter extends FragmentPagerAdapter {
-		// 定義各tab名稱
-		private final int[] TITLES = { R.string.tab1, R.string.tab2 };
-
-		// private final int[] TITLES = { R.string.tab1, R.string.tab2,
-		// R.string.tab3, R.string.tab4 };
-		// private final int[] TITLES = { R.string.tab1, R.string.tab2,
-		// R.string.tab3 ,655};
-
-		public MyPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		// This displays tab names and how to switch, if you remove a tab,
-		// remove its case below but make sure to keep the order (0,1,2)
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch (position) {
-			case 0:
-				return getString(R.string.tab1).toUpperCase(l);
-			case 1:
-				return getString(R.string.tab2).toUpperCase(l);
-				/*
-				 * case 2: return getString(R.string.tab3).toUpperCase(l); case
-				 * 3: return getString(R.string.tab4).toUpperCase(l);
-				 */
-			}
-			return null;
-		}
-
-		// These are the tabs in the main display, if you remove a tab
-		// (fragment) you must remove it from below. also, ensure you keep the
-		// cases in order or it will not know what to do
-		@Override
-		public Fragment getItem(int position) {
-			Fragment f = new Fragment();
-			switch (position) {
-			case 0:
-				f = new CardViewFragment();
-				replaceFragment();
-				break;
-
-			case 1:
-				f = new ListviewFragment();
-				break;
-
-			/*
-			 * case 2: f= new DistanceFragment(); break; case 3: f= new
-			 * OverallFragment(); break;
-			 */
-			}
-			return f;
-		}
-
-		@Override
-		public int getCount() {
-			return TITLES.length;
-		}
-		
-
-		public int getPosion(Object object) {
-			return getItemPosition(object);
-			
-		}
-
-
-	}
-
+	};
 }

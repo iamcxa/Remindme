@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="actionbar">#FF7AA821</color>
     <color name="actionbar_text">#FFFFFFFF</color>
     <color name="background_window">#FFDEDEDE</color>
     <color name="background_tabs">#FFE5E5E5</color>
-    <color name="card_unpressed">#FFFFFFFF</color>
-    <color name="card_pressed">#668ABD25</color>
-    <color name="card_text">#FF3F9FE0</color>
+    <color name="card_Tittle">#FF3F9FE0</color>
+    <color name="card_SubTittle">#333333</color>
+    <color name="card_ThirdTittle">#969696</color>
     <color name="Button_Off">#FF3F9FE0</color>
     <color name="Button_On">#667AA821</color>
     <color name="smart_date">#FF3F9FE0</color>
@@ -16,4 +17,27 @@
     <color name="PagerSlidingTabStrip_indicatorColor">#FF95C821</color>
     <color name="PagerSlidingTabStrip_underlineColor">#667AA821</color>
     <color name="PagerSlidingTabStrip_dividerColor">#668ABD25</color>
+
+    <!-- color card -->
+    <color name="demo_card_background_color1">#FFBB33</color>
+    <color name="demo_card_background_color2">#98CC00</color>
+    <color name="demo_card_background_color3">#A966CC</color>
+    <color name="demo_card_background_color4">#33B4E4</color>
+    <color name="demo_card_background_color5">#FF4343</color>
+
+    <!-- Card Color -->
+    <color name="card_background">#FFF</color>
+    <color name="card_background_header">#FFF</color>
+    <color name="card_backgroundExpand">#515254</color>
+    <color name="card_text_color_header">#FF3F9FE0</color>
+    <color name="card_expand_title_color">#B3B2B2</color>
+
+    <!-- Used by selector -->
+    <!--<color name="card_pressed">#7E0099CC</color>-->
+    <color name="card_activated">#CFE9F3</color>
+    <color name="card_pressed_kitkat">#10000000</color>
+    <color name="card_activated_kitkat">#ADE1F4</color>
+    <color name="card_unpressed">#FFFFFFFF</color>
+    <color name="card_pressed">#668ABD25</color>
+
 </resources>

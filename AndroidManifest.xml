@@ -14,7 +14,7 @@
     <application android:label="@string/app_name" 
         		 android:icon="@drawable/reminder"
                  android:theme="@style/Theme.Irdark"
-                 android:hardwareAccelerated="true" >
+                 android:hardwareAccelerated="true" android:allowClearUserData="true" android:enabled="true" android:uiOptions="splitActionBarWhenNarrow" android:allowBackup="true" android:largeHeap="false">
                  
         <activity android:name="RemindmeMainActivity"
                   android:label="@string/app_name" android:screenOrientation="portrait">                
