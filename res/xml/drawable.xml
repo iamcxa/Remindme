@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <category title="App Drawer Icons" />
+    <item drawable="icon" />
+
+    <category title="Folder Icons" />
+    <item drawable="folder" />
+
+    <category title="App Icons" />
+    <item drawable="apps_actionlauncher" />
+    <item drawable="apps_adwex" />
+    <item drawable="apps_adwlauncher" />
+    <item drawable="apps_apexlauncher" />
+    <item drawable="apps_golauncher" />
+    <item drawable="apps_novalauncher" />
+
+    <category title="Game Icons" />
+    <item drawable="games_games" />
+ 
+    <category title="Misc" />
+    <item drawable="misc_power" />
+
+    <category title="Themes" />
+    <item drawable="theme_designrifts" />
+     
+    <category title="System" />
+    <item drawable="system_browser" />
+ 
+</resources>

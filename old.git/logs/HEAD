@@ -1,0 +1,27 @@
+0000000000000000000000000000000000000000 edbb1e92c58587bfb50daca13dc537574f9f83f4 cxa <cxa@cxa-desktop> 1395230235 +0800	commit: 1ST
+edbb1e92c58587bfb50daca13dc537574f9f83f4 df2f87eea9c71fe9f481364182868f95fb26eff9 cxa <cxa@cxa-desktop> 1395877783 +0800	commit: 更新整體架構
+df2f87eea9c71fe9f481364182868f95fb26eff9 e9762dcd02e9d79b832447773318b804e0e5fd64 cxa <cxa@cxa-desktop> 1395877842 +0800	commit: 更新架構
+e9762dcd02e9d79b832447773318b804e0e5fd64 00e450465aac233e3e4b00fbaf98ee0fdce48f88 cxa <cxa@cxa-desktop> 1395880020 +0800	commit: 2nd rebuild the packages
+00e450465aac233e3e4b00fbaf98ee0fdce48f88 15c70f864bdbf0b93a88d8130bb7b34fe64f6ebd cxa <cxa@cxa-desktop> 1396016108 +0800	commit: 架構重建
+15c70f864bdbf0b93a88d8130bb7b34fe64f6ebd 8a1f0649b6d19d9d6c164f77a9eac671a68d25ec cxa <cxa@cxa-desktop> 1396466422 +0800	commit: init
+8a1f0649b6d19d9d6c164f77a9eac671a68d25ec 032fcbfd423acbc4bf6a3b3fcc4e8f937fd691b9 cxa <cxa@cxa-desktop> 1396466724 +0800	commit: init
+032fcbfd423acbc4bf6a3b3fcc4e8f937fd691b9 5346b5b3917e19f6d190841e8ccb9219d8a57bdb cxa <cxa@cxa-desktop> 1396719415 +0800	commit: 更改1.檔案命名原則 2.修正remindmeactivity錯誤 3.更新editor layout 4.editor code修正中
+5346b5b3917e19f6d190841e8ccb9219d8a57bdb 37b02b578d2c581410800540b36715982fbdb726 cxa <cxa@cxa-desktop> 1396719703 +0800	commit: test
+37b02b578d2c581410800540b36715982fbdb726 aa7a821113257a5840dc47973d3917d0fcd312cb cxa <cxa@cxa-desktop> 1396722075 +0800	commit (amend): test
+aa7a821113257a5840dc47973d3917d0fcd312cb 7bf5e1d30c366911b46f129d1184274e0312441f iamcxa <iamcxa@gmail.com> 1396722303 +0800	commit (amend): test
+7bf5e1d30c366911b46f129d1184274e0312441f fe859921a04e0b06ca207f3409f59c05bba9ce1a iamcxa <iamcxa@gmail.com> 1396933726 +0800	commit: editor update
+fe859921a04e0b06ca207f3409f59c05bba9ce1a 13b2e8cbaf654c2d7b372abe44be67be59fb748d iamcxa <iamcxa@gmail.com> 1397091217 +0800	commit: update editor/card-ui libs/main activity
+13b2e8cbaf654c2d7b372abe44be67be59fb748d cbec1a1abf822a13cf94f7611c166514228ef5dc iamcxa <iamcxa@gmail.com> 1397228553 +0800	commit: update	editor 		db provide
+cbec1a1abf822a13cf94f7611c166514228ef5dc 37046beec8c944d7162a753abdcb35fba2b2f95e iamcxa <iamcxa@gmail.com> 1397280471 +0800	commit: mainly update 
+37046beec8c944d7162a753abdcb35fba2b2f95e 16633a87eaddbf96b6031023fa9f1cace7ceff94 iamcxa <iamcxa@gmail.com> 1397283021 +0800	commit: recommit all
+16633a87eaddbf96b6031023fa9f1cace7ceff94 16633a87eaddbf96b6031023fa9f1cace7ceff94 iamcxa <iamcxa@gmail.com> 1397283545 +0800	checkout: moving from master to mainUI
+16633a87eaddbf96b6031023fa9f1cace7ceff94 d779315ae748c18b8a7da44fffa22bd49d587887 iamcxa <iamcxa@gmail.com> 1397305322 +0800	commit: update 		libs
+d779315ae748c18b8a7da44fffa22bd49d587887 b322d4bbdfc8d992d747c091b81bb5b352e22b76 iamcxa <iamcxa@gmail.com> 1397309523 +0800	commit: update		editor layout 			editor code
+b322d4bbdfc8d992d747c091b81bb5b352e22b76 536402b7a78f85f4f5733930a4c33041884d7e31 iamcxa <iamcxa@gmail.com> 1397322069 +0800	commit: update editor layout and core
+536402b7a78f85f4f5733930a4c33041884d7e31 5e0280a6fab6bad63fb52f4b4b1f2c3f219908dd iamcxa <iamcxa@gmail.com> 1397330795 +0800	commit: new	 libs
+5e0280a6fab6bad63fb52f4b4b1f2c3f219908dd 16633a87eaddbf96b6031023fa9f1cace7ceff94 iamcxa <iamcxa@gmail.com> 1397331923 +0800	checkout: moving from mainUI to master
+16633a87eaddbf96b6031023fa9f1cace7ceff94 5e0280a6fab6bad63fb52f4b4b1f2c3f219908dd iamcxa <iamcxa@gmail.com> 1397331943 +0800	checkout: moving from master to mainUI
+5e0280a6fab6bad63fb52f4b4b1f2c3f219908dd 228c2badb6364e6420d5429d2d19d438431156a5 iamcxa <iamcxa@gmail.com> 1397332541 +0800	commit: cards lib update
+228c2badb6364e6420d5429d2d19d438431156a5 c5723ffa1b49b15cf88f2536987e6d01bf46ef77 iamcxa <iamcxa@gmail.com> 1397333048 +0800	commit: up
+c5723ffa1b49b15cf88f2536987e6d01bf46ef77 bcbb2a45df6e5c4a3b3296c41ca29b2bb16cb787 iamcxa <iamcxa@gmail.com> 1397335070 +0800	commit: 1
+bcbb2a45df6e5c4a3b3296c41ca29b2bb16cb787 46369a575b4d5597871fd1690c444c3fab35f158 iamcxa <iamcxa@gmail.com> 1397373307 +0800	commit: new cardui

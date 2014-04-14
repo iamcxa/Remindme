@@ -1,0 +1,53 @@
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@color/PagerSlidingTabStrip_underlineColor"
+            android:fadingEdge="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            tools:context="me.iamcxa.remindme.ActivityEditor" >
+
+<TextView
+    android:id="@+id/name"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginLeft="15dp"
+    android:textSize="18sp"
+    android:textStyle="bold" />
+
+<MultiAutoCompleteTextView
+    android:id="@+id/editTextbox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/name"
+    android:layout_centerHorizontal="true"
+    android:ems="10"
+    android:height="60dp"
+    android:imeOptions="normal"
+    android:inputType="text"
+    android:maxLength="256"
+    android:minHeight="60dp"
+    android:padding="20dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:shadowColor="#FFFFFF"
+    android:shadowDx="0"
+    android:shadowDy="0"
+    android:shadowRadius="5"
+    android:textStyle="bold" 
+    android:singleLine="false"
+    android:textColor="#333333"
+    android:textSize="20sp">
+<requestFocus />
+</MultiAutoCompleteTextView>
+
+
+        </RelativeLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--This data is what fills the Theme Tab information -->
+    <string name="tab1">總覽</string>
+    <string name="themeheader">最優先‧‧‧</string>
+    <string name="themeheader2">其次‧‧‧</string>
+	<string name="apply">Apply</string>
+    <string name="actionlauncher">多媒體程式設計期末報告</string>
+    <string name="actionlauncher_extra">再 1 天 - 2014/2/18 9:30\n正修科技大學</string>
+    <string name="adwlauncher">買洗面乳</string>
+    <string name="adwlauncher_extra">屈臣氏 - 距離 325公尺</string>
+    <string name="apexlauncher">繳電話費</string>
+    <string name="apexlauncher_extra">神腦國際 - 距離 1.2公里</string>
+    <string name="novalauncher">日清泡麵過期</string>
+    <string name="novalauncher_extra">再 5 天 - 2014/2/22</string>
+    <string name="smartlauncher">上傳到Github</string>
+    <string name="smartlauncher_extra">再 1 天 - 2014/2/18</string>
+    <string name="golauncher">寄出露天賣出商品</string>
+    <string name="golauncher_extra">再 2 天 - 2014/2/19</string>    
+         <!-- This data is what fills the Extras Tab information-->
+    <string name="tab2">時間</string>
+    <string name="playheader">期限最近‧‧‧</string>
+    <string name="play">多媒體程式設計期末報告</string>
+    <string name="play_extra">再 1 天 - 2014/2/18 9:30\n正修科技大學</string>
+    <string name="play_link"></string>
+    <string name="basicsheader">The Basics</string>
+    <string name="wallpaper">日清泡麵過期</string>
+    <string name="wallpaper_extra">再 5 天 - 2014/2/22</string> 
+    <string name="icon">Icons</string>
+    <string name="icon_extra">See What is Included</string> 
+    <string name="request">Want to Request an Icon?</string>
+    <string name="request_extra">This will scan your device for the apps installed and sent us the names</string>
+    <string name="extrasheader">What Do We Have Here?</string>    
+    <string name="uccw">UCCW</string>
+    <string name="uccw_extra">To Match Ya Draws</string>
+    <!-- Use this to link to your UCCW skins on Play or Website, or remove the card in FragmentExtras  -->
+    <string name="uccw_link">Sorry No UCCW downloads available</string> 
+    <string name="zooper">Zooper</string>
+    <string name="zooper_extra">To Match Ya Socks</string>
+    <!-- Use this to link to your Zooper skins on Play or Website, or remove the card in FragmentExtras  -->
+    <string name="zooper_link">Sorry No UCCW downloads available</string>       
+    <string name="extras1">Your Mom</string>
+    <string name="extras1_extra">Loves Me!</string>
+    <string name="extras1_link"></string>           
+    <string name="extras2">This Guy</string>
+    <string name="extras2_extra">Loves Dildroid!</string>
+    <string name="extras2_link"></string>      
+    <!-- This is for information on the template, I would remove this as well as all association in the FramgmentExtra -->
+    <string name="template_header"></string>
+    <string name="github">上傳到Github</string>
+    <string name="github_extra">2014/2/18</string>
+    <string name="github_link">https://github.com/designrifts/Ultimate_Theme_UI_Template</string>
+    <string name="rootzwiki">寄出露天賣出商品</string>
+    <string name="rootzwiki_extra">再 2 天 - 2014/2/19\n7-ELEVEN藍昌門市 - <font color="#ff33B4E3">200公尺</font></string>
+    <string name="rootzwiki_link"></string>
+    <string name="xda">開學</string>
+    <string name="xda_extra">2014/2/20</string>    
+    <string name="xda_link"></string>    
+    
+    <string name="notice">↑有新的距離資訊。</string>    
+    <string name="morenotice">這個提示實用嗎？</string>   
+        <!-- This data is what fills the Contact Tab information-->
+    <string name="tab3">地點</string>
+    <string name="contact">‧</string>
+    <string name="socialheader">距離最近‧‧‧</string>    
+    <string name="action_contact">Contact</string>
+    <string name="contactheader">Want To See More of Me?</string>
+    
+    <string name="gplus">買洗面乳</string>
+    <string name="gplus_extra">屈臣氏 - 距離 325公尺</string>
+    <string name="gplus_link"></string>
+    <string name="twitter">繳電話費</string>
+    <string name="twitter_extra">神腦國際 - 距離 1.2公里</string>
+    <string name="twitter_link"></string>
+    
+    
+    <string name="facebook">郵局存錢</string>
+    <string name="facebook_extra">郵局 - 距離 5公里</string>
+    <string name="facebook_link"></string>
+    <string name="emailheader"></string>
+    <string name="email">彰化銀行開戶</string>
+    <string name="email_extra">彰化銀行 - 距離 6.3公里</string>
+    <string name="email_link"></string>
+    <string name="webheader">The Interwebz</string>
+    <string name="web">總統府</string>
+    <string name="web_extra">凱達格蘭大道 - 距離 452公里</string>
+    <string name="web_link"></string>  
+    
+    	<string name="tab4">地址簿</string>
+	<string name="tab4header">自定義地點‧‧‧</string>
+	
+	<string name="place1">住家</string> 
+	<string name="place2">公司</string> 
+	<string name="place3">學校</string> 
+	<string name="place4">屈臣氏</string> 
+	
+	<string name="space"></string>
+	<string name="more1">322公尺</string>
+	<string name="more2">1.5公里</string>
+	<string name="more3">13公里</string>
+	<string name="more4">最近距離 - 325公尺</string> 
+</resources>

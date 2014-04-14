@@ -1,0 +1,76 @@
+<resources>
+
+    <style name="DesignRiftsTheme" parent="android:style/Theme.Holo.Light.DarkActionBar"></style>
+
+    <style name="DesignRifts" parent="DesignRiftsTheme">
+        <item name="android:windowBackground">@color/background_window</item>
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+              <item name="android:background">@color/actionbar</item>
+    </style>
+    
+    <style name="ActionBarTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab</item>
+    </style>
+    
+     <style name="bttn">
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:textSize">15.0dip</item>
+        
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:layout_marginLeft">20dip</item>
+        <item name="android:layout_marginRight">20dip</item>
+        
+        <item name="android:paddingTop">4dip</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingRight">10dip</item>
+          
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>      
+    </style> 
+    
+    <style name="scan_description">
+        <item name="android:textColor">#FF3F9FE0</item>
+        <item name="android:textSize">15.0dip</item>
+        
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:layout_marginLeft">20dip</item>
+        <item name="android:layout_marginRight">20dip</item>
+        
+        <item name="android:paddingTop">4dip</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingRight">10dip</item>
+          
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>      
+    </style> 
+    
+        <style name="about">
+        <item name="android:textColor">#FF3F9FE0</item>
+        <item name="android:textSize">20.0dip</item>
+        
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:layout_marginLeft">20dip</item>
+        <item name="android:layout_marginRight">20dip</item>
+        
+        <item name="android:paddingTop">4dip</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:paddingRight">10dip</item>
+          
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>      
+    </style> 
+
+</resources>

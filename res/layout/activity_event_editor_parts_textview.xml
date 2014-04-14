@@ -1,0 +1,43 @@
+
+    
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:background="@color/background_window"
+    android:fadingEdge="vertical"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbars="vertical"
+    tools:context="me.iamcxa.remindme.ActivityEditor" >
+
+<TextView
+    android:id="@+id/name"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginLeft="15dp"
+    android:textSize="18sp"
+    android:textStyle="bold" />
+
+<TextView
+    android:id="@+id/desc"
+    android:layout_width="fill_parent"
+    android:layout_height="55dp"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/name"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:shadowColor="#FFFFFF"
+    android:shadowDx="0"
+    android:shadowDy="0"
+    android:shadowRadius="5"
+    android:textColor="#666666"
+    android:textSize="18sp"
+    android:textStyle="normal" />
+        
+        </RelativeLayout>
