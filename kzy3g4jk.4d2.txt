@@ -1,0 +1,17 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch testMerageGps
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   libs/lib_PagerSlidingTabStrip/bin/R.txt
+#	modified:   libs/lib_PagerSlidingTabStrip/gen/com/astuetz/viewpager/extensions/R.java
+#	modified:   libs/lib_cards/bin/R.txt
+#	modified:   libs/lib_cards/gen/it/gmariotti/cardslib/library/R.java
+#	modified:   libs/lib_cards_extra/bin/R.txt
+#	modified:   libs/lib_cards_extra/gen/it/gmariotti/cardslib/library/extra/R.java
+#	modified:   res/menu/main_activity_actionbar.xml
+#	modified:   src/me/iamcxa/remindme/provider/OpendataDBMaintainer.java
+#
+
