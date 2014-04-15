@@ -48,23 +48,6 @@ public class TaskDBProvider extends ContentProvider {
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		}
-<<<<<<< HEAD
-		
-		// 建立資料表
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("CREATE TABLE " + TASK_LIST_TABLE_NAME
-					+ " ("
-					+ RemindmeTaskCursor.KeyColumns.KEY_ID
-					+ " INTEGER PRIMARY KEY," // 0
-					+ RemindmeTaskCursor.KeyColumns.GoogleCalSyncID
-					+ " TEXT," // 1
-					+ RemindmeTaskCursor.KeyColumns.Tittle
-					+ " TEXT," // 2
-					+ RemindmeTaskCursor.KeyColumns.StartTime
-					+ " TEXT," // 3
-=======
-
 		// 建立資料表
 		@Override
 		public void onCreate(SQLiteDatabase db) {
@@ -79,7 +62,6 @@ public class TaskDBProvider extends ContentProvider {
 					+ " TEXT," // 2
 					+ RemindmeTaskCursor.KeyColumns.StartTime // 3
 					+ " TEXT,"
->>>>>>> merageGps
 					+ RemindmeTaskCursor.KeyColumns.EndTime
 					+ " TEXT," // 4
 					+ RemindmeTaskCursor.KeyColumns.StartDate
@@ -93,11 +75,7 @@ public class TaskDBProvider extends ContentProvider {
 					+ RemindmeTaskCursor.KeyColumns.LocationName
 					+ " TEXT," // 9
 					+ RemindmeTaskCursor.KeyColumns.Coordinates
-<<<<<<< HEAD
-					+ " TEXT,"	// 10
-=======
 					+ " TEXT," // 10
->>>>>>> merageGps
 					+ RemindmeTaskCursor.KeyColumns.Distance
 					+ " TEXT," // 11
 					+ RemindmeTaskCursor.KeyColumns.CalendarID
@@ -106,33 +84,18 @@ public class TaskDBProvider extends ContentProvider {
 					+ " TEXT," // 13
 					+ RemindmeTaskCursor.KeyColumns.CREATED
 					+ " TEXT," // 14
-<<<<<<< HEAD
-					+ RemindmeTaskCursor.KeyColumns.Is_Alarm_ON 
-					+ " INTEGER,"//15
-					+ RemindmeTaskCursor.KeyColumns.Is_Hide_ON 
-					+ " INTEGER," // 16
-					+ RemindmeTaskCursor.KeyColumns.Is_PW_ON 
-=======
 					+ RemindmeTaskCursor.KeyColumns.Is_Alarm_ON
 					+ " INTEGER,"// 15
 					+ RemindmeTaskCursor.KeyColumns.Is_Hide_ON
 					+ " INTEGER," // 16
 					+ RemindmeTaskCursor.KeyColumns.Is_PW_ON
->>>>>>> merageGps
 					+ " INTEGER," // 17
 					+ RemindmeTaskCursor.KeyColumns.Password
 					+ " TEXT," // 18
 					+ RemindmeTaskCursor.KeyColumns.PriorityWeight
 					+ " INTEGER," // 19
-<<<<<<< HEAD
-					+ RemindmeTaskCursor.KeyColumns.Collaborators
-					+ " TEXT," // 20
-					+ RemindmeTaskCursor.KeyColumns.other
-					+ " TEXT" // 21
-=======
 					+ RemindmeTaskCursor.KeyColumns.Collaborators + " TEXT," // 20
 					+ RemindmeTaskCursor.KeyColumns.other + " TEXT" // 21
->>>>>>> merageGps
 					+ ");");
 		}
 

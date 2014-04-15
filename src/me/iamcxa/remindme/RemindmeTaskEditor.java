@@ -6,9 +6,6 @@ package me.iamcxa.remindme;
 import java.util.Calendar;
 import java.util.Date;
 
-<<<<<<< HEAD
-import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor;
-=======
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -19,7 +16,6 @@ import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor;
 import me.iamcxa.remindme.provider.GPSCallback;
 import me.iamcxa.remindme.provider.GPSManager;
 import me.iamcxa.remindme.provider.GeocodingAPI;
->>>>>>> merageGps
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -34,15 +30,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-<<<<<<< HEAD
-import android.net.Uri;
-import android.os.Bundle;
-=======
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
->>>>>>> merageGps
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,36 +43,23 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-<<<<<<< HEAD
-=======
 import android.widget.Button;
->>>>>>> merageGps
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-<<<<<<< HEAD
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
-=======
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import me.iamcxa.remindme.provider.WorkaroundMapFragment;
 
->>>>>>> merageGps
 
 /**
  * @author cxa
  * 
  */
 
-<<<<<<< HEAD
-public class RemindmeTaskEditor extends Activity {
-
-=======
 public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallback {
 
 	//GPS模組
@@ -90,7 +68,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	//pick
 	private static GoogleMap map;
 	
->>>>>>> merageGps
 	private static EditText tittlEditText;
 
 	// 備忘錄訊息列表
@@ -114,8 +91,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private static TextView contentDesc;
 
 	private static TextView locationTittle;
-<<<<<<< HEAD
-=======
 	
 
 	private static Button Search;
@@ -123,7 +98,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private static Button OK;
 	
 	private static EditText SearchText;
->>>>>>> merageGps
 	// 是否開啟提醒
 	private int on_off = 0;
 	// 是否聲音警告
@@ -147,14 +121,11 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private String time1;
 
 	private static String locationName;
-<<<<<<< HEAD
-=======
 	
 	//經緯度
 	private static Double Latitude;
 	private static Double Longitude;
 	private static ScrollView main_scrollview;
->>>>>>> merageGps
 	// 備忘錄ID
 	private int id1;
 	// 多選框
@@ -197,9 +168,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_editor);
-<<<<<<< HEAD
-
-=======
 		SearchText = (EditText)findViewById(R.id.SearchText);
 		Search = (Button)findViewById(R.id.Search);
 		OK = (Button)findViewById(R.id.OK);
@@ -236,7 +204,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
                 .position(nowLoacation));
         
         map.setOnCameraChangeListener(listener);
->>>>>>> merageGps
 		// 取得Intent
 		final Intent intent = getIntent();
 		// 設定Uri
@@ -694,8 +661,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 
 	};
 
-<<<<<<< HEAD
-=======
 	@Override
 	public void onGPSUpdate(Location location) {
 		// TODO Auto-generated method stub
@@ -776,7 +741,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	};
 	
 
->>>>>>> merageGps
 }
 
 // * CLASS JUST FOR THE CUSTOM ALERT DIALOG
