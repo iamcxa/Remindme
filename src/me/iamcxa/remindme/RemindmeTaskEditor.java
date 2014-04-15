@@ -6,7 +6,20 @@ package me.iamcxa.remindme;
 import java.util.Calendar;
 import java.util.Date;
 
+<<<<<<< HEAD
 import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor;
+=======
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor;
+import me.iamcxa.remindme.provider.GPSCallback;
+import me.iamcxa.remindme.provider.GPSManager;
+import me.iamcxa.remindme.provider.GeocodingAPI;
+>>>>>>> merageGps
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -21,8 +34,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+<<<<<<< HEAD
 import android.net.Uri;
 import android.os.Bundle;
+=======
+import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+>>>>>>> merageGps
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,21 +52,45 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+<<<<<<< HEAD
+=======
+import android.widget.Button;
+>>>>>>> merageGps
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
+<<<<<<< HEAD
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+=======
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
+import me.iamcxa.remindme.provider.WorkaroundMapFragment;
+
+>>>>>>> merageGps
 
 /**
  * @author cxa
  * 
  */
 
+<<<<<<< HEAD
 public class RemindmeTaskEditor extends Activity {
 
+=======
+public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallback {
+
+	//GPS模組
+	private static  GPSManager gpsManager = null;
+	
+	//pick
+	private static GoogleMap map;
+	
+>>>>>>> merageGps
 	private static EditText tittlEditText;
 
 	// 備忘錄訊息列表
@@ -70,6 +114,16 @@ public class RemindmeTaskEditor extends Activity {
 	private static TextView contentDesc;
 
 	private static TextView locationTittle;
+<<<<<<< HEAD
+=======
+	
+
+	private static Button Search;
+	
+	private static Button OK;
+	
+	private static EditText SearchText;
+>>>>>>> merageGps
 	// 是否開啟提醒
 	private int on_off = 0;
 	// 是否聲音警告
@@ -93,6 +147,14 @@ public class RemindmeTaskEditor extends Activity {
 	private String time1;
 
 	private static String locationName;
+<<<<<<< HEAD
+=======
+	
+	//經緯度
+	private static Double Latitude;
+	private static Double Longitude;
+	private static ScrollView main_scrollview;
+>>>>>>> merageGps
 	// 備忘錄ID
 	private int id1;
 	// 多選框
@@ -135,7 +197,46 @@ public class RemindmeTaskEditor extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_editor);
+<<<<<<< HEAD
 
+=======
+		SearchText = (EditText)findViewById(R.id.SearchText);
+		Search = (Button)findViewById(R.id.Search);
+		OK = (Button)findViewById(R.id.OK);
+		Search.setOnClickListener(SearchPlace);
+		OK.setOnClickListener(SearchPlace);
+		gpsManager = new GPSManager();
+		gpsManager.startListening(getApplicationContext());
+	    gpsManager.setGPSCallback(RemindmeTaskEditor.this);
+	    
+//	    map = ((MapFragment) getFragmentManager()
+//				 .findFragmentById(R.id.map)).getMap();
+	    
+	    map = ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+	    main_scrollview = (ScrollView) findViewById(R.id.main_scrollview);
+ 
+       ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).setListener(new WorkaroundMapFragment.OnTouchListener() {
+          @Override
+          public void onTouch() {
+        	  main_scrollview.requestDisallowInterceptTouchEvent(true);
+          }
+       	});
+		map.setMyLocationEnabled(true);
+		
+		LatLng nowLoacation = new LatLng(23.6978, 120.961);
+
+        map.setMyLocationEnabled(true);
+       
+        map.clear();
+        
+        map.moveCamera((CameraUpdateFactory.newLatLngZoom(nowLoacation,map.getMinZoomLevel()+7)));
+
+        map.addMarker(new MarkerOptions()
+                .title("愛台灣啦!!")
+                .position(nowLoacation));
+        
+        map.setOnCameraChangeListener(listener);
+>>>>>>> merageGps
 		// 取得Intent
 		final Intent intent = getIntent();
 		// 設定Uri
@@ -593,6 +694,89 @@ public class RemindmeTaskEditor extends Activity {
 
 	};
 
+<<<<<<< HEAD
+=======
+	@Override
+	public void onGPSUpdate(Location location) {
+		// TODO Auto-generated method stub
+		Double Longitude = location.getLongitude();
+		//緯度
+		Double Latitude =  location.getLatitude();
+		
+		//textView1.setText("經緯度:"+Latitude+","+Longitude);
+		//拿到經緯度後馬上關閉
+		gpsManager.stopListening();
+        gpsManager.setGPSCallback(null);
+        gpsManager = null;
+        
+        LatLng nowLoacation = new LatLng(Latitude, Longitude);
+
+        map.setMyLocationEnabled(true);
+       
+        map.clear();
+        
+        map.animateCamera((CameraUpdateFactory.newLatLngZoom(nowLoacation,map.getMaxZoomLevel()-4)));
+
+        map.addMarker(new MarkerOptions()
+                .title("目前位置")
+                .position(nowLoacation));
+        
+        GeocodingAPI LoacationAddress = new GeocodingAPI(getApplicationContext(),Latitude+","+Longitude);
+       // textView2.setText(textView2.getText()+" "+LoacationAddress.GeocodingApiAddressGet());
+	}
+	private Button.OnClickListener SearchPlace = new Button.OnClickListener(){
+		public void onClick(View v){
+			//宣告GPSManager
+
+		    switch (v.getId()) {
+			case R.id.OK:
+		        //textView2.setText(textView2.getText()+"\n"+LoacationAddress.GeocodingApiAddressGet());  //獲取地址
+		        //textView2.setText(textView2.getText()+"\n"+LoacationAddress.GeocodingApiLatLngGet());  //獲取經緯度
+				GeocodingAPI LoacationAddress = new GeocodingAPI(getApplicationContext(),map.getCameraPosition().target.latitude+","+map.getCameraPosition().target.longitude);
+				Longitude = LoacationAddress.GeocodingApiLatLngGet().longitude;
+				Latitude = LoacationAddress.GeocodingApiLatLngGet().latitude;
+				locationName = LoacationAddress.GeocodingApiAddressGet();
+				Toast.makeText(getApplicationContext(), "獲取經緯度"+map.getCameraPosition().target.latitude+","+map.getCameraPosition().target.longitude+"\n地址:"+locationName, Toast.LENGTH_SHORT).show();
+
+			break;
+			case R.id.Search:
+				//textView2.setText(map.getMyLocation().toString());  //可用網路抓到GPS位置
+				if(!SearchText.getText().toString().equals("")){
+					GeocodingAPI LoacationAddress2 = new GeocodingAPI(getApplicationContext(),SearchText.getText().toString());
+					//textView2.setText("");
+					//locationName=LoacationAddress2.GeocodingApiAddressGet();
+			        //textView2.setText(textView2.getText()+"\n"+Address);
+			        LatLng SearchLocation = LoacationAddress2.GeocodingApiLatLngGet();
+			        //textView2.setText(textView2.getText()+"\n"+SearchLocation);
+			        map.animateCamera((CameraUpdateFactory.newLatLngZoom(SearchLocation,map.getMaxZoomLevel()-4)));
+			        map.addMarker(new MarkerOptions()
+	                .title("搜尋的位置")
+	                .snippet(locationName)
+	                .position(SearchLocation));
+					}
+			break;
+
+			default:
+				break;
+			}
+		}
+	};
+	
+	private GoogleMap.OnCameraChangeListener listener = new GoogleMap.OnCameraChangeListener() {
+		
+		@Override
+		public void onCameraChange(CameraPosition position) {
+			// TODO Auto-generated method stub
+			map.clear();
+			LatLng now = new LatLng(position.target.latitude, position.target.longitude);
+			map.addMarker(new MarkerOptions()
+            .title("目的地")
+            .position(now));
+		}
+	};
+	
+
+>>>>>>> merageGps
 }
 
 // * CLASS JUST FOR THE CUSTOM ALERT DIALOG

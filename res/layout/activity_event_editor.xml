@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,24 +8,53 @@
     android:layout_centerVertical="true"
     android:background="@color/background_window"
     android:fadingEdge="vertical"
+=======
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_scrollview"
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >"
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:background="@color/background_window"
+    android:orientation="vertical"
+>>>>>>> merageGps
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:scrollbarStyle="insideOverlay"
     android:scrollbars="vertical"
     tools:context="me.iamcxa.remindme.ActivityEditor" >
 
+<<<<<<< HEAD
     <RelativeLayout
+=======
+    <LinearLayout
+>>>>>>> merageGps
         android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+<<<<<<< HEAD
+=======
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+>>>>>>> merageGps
         android:background="@color/background_tab_pressed" >
 
         <EditText
             android:id="@+id/editTextTittle"
+<<<<<<< HEAD
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+=======
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+>>>>>>> merageGps
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:height="50dp"
@@ -43,6 +73,7 @@
 
             <requestFocus />
         </EditText>
+<<<<<<< HEAD
 
     </RelativeLayout>
 
@@ -65,3 +96,55 @@
     </LinearLayout>
 
 </RelativeLayout>
+=======
+		    
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="fill_parent"
+            android:layout_height="260dp"
+            android:background="@color/background_window"
+            android:drawSelectorOnTop="true" >
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/SearchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:hint="輸入搜尋地點"
+                android:ems="10" />
+            
+            <Button
+                android:id="@+id/Search"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="搜尋" />
+            <Button
+                android:id="@+id/OK"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="確認" />
+
+        </LinearLayout>
+        
+        <fragment
+		    android:id="@+id/map"
+		    class="me.iamcxa.remindme.provider.WorkaroundMapFragment"
+		    android:layout_width="match_parent"
+		    android:layout_height="300dp"/>
+
+		    
+    </LinearLayout>
+    
+</LinearLayout>
+</ScrollView>
+>>>>>>> merageGps
