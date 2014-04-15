@@ -14,7 +14,8 @@
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:scrollbarStyle="insideOverlay"
     android:scrollbars="vertical"
-    tools:context="me.iamcxa.remindme.ActivityEditor" >
+    tools:context="me.iamcxa.remindme.ActivityEditor" 
+    android:windowSoftInputMode="stateHidden">
 
     <LinearLayout
         android:id="@+id/relativeLayout1"
@@ -45,7 +46,8 @@
             android:singleLine="false"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold" >
+            android:textStyle="bold" 
+            >
 
             <requestFocus />
         </EditText>
@@ -53,7 +55,7 @@
         <ListView
             android:id="@+id/listView1"
             android:layout_width="fill_parent"
-            android:layout_height="260dp"
+            android:layout_height="330dp"
             android:background="@color/background_window"
             android:drawSelectorOnTop="true" >
         </ListView>
@@ -69,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:hint="輸入搜尋地點"
-                android:ems="10" />
+                android:ems="10" 
+                />
             
             <Button
                 android:id="@+id/Search"

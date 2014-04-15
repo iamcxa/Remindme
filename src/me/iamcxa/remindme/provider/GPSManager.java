@@ -7,13 +7,15 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
  
 public class GPSManager
 {
         private static final int gpsMinTime = 500;
         private static final int gpsMinDistance = 0;
          
-        private static LocationManager locationManager = null;
+        public static LocationManager locationManager = null;
         private static LocationListener locationListener = null;
         private static GPSCallback gpsCallback = null;
          
@@ -71,7 +73,7 @@ public class GPSManager
                 criteria.setAltitudeRequired(false);
                 criteria.setBearingRequired(false);
                 criteria.setCostAllowed(true);
-                criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
+                criteria.setPowerRequirement(Criteria.POWER_LOW);
                  
                 final String bestProvider = GPSManager.locationManager.getBestProvider(criteria, true);
                  
@@ -91,6 +93,44 @@ public class GPSManager
                         }
                 }
         }
+        
+        public Boolean startGpsListening(final Context context)
+        {
+                if (GPSManager.locationManager == null)
+                {
+                        GPSManager.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                }
+                //判斷GPS有沒有打開
+               // if(GPSManager.locationManager.isProviderEnabled(GPSManager.locationManager.GPS_PROVIDER)){
+                	GPSManager.locationManager.requestLocationUpdates(GPSManager.locationManager.GPS_PROVIDER, GPSManager.gpsMinTime,
+                                        GPSManager.gpsMinDistance, GPSManager.locationListener);
+                	return true;
+               // }
+               // else
+               // {
+               // 	return false;
+               // }
+        }
+        
+        
+        public Boolean startNetWorkListening(final Context context)
+        {
+                if (GPSManager.locationManager == null)
+                {
+                        GPSManager.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+                }
+                //判斷網路訂位有沒有打開
+                //if (GPSManager.locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                	GPSManager.locationManager.requestLocationUpdates(GPSManager.locationManager.NETWORK_PROVIDER, GPSManager.gpsMinTime,
+                                        GPSManager.gpsMinDistance, GPSManager.locationListener);
+                	return true;
+               // }
+               // else{
+               // 	return false;
+               // }
+                
+        }
+        
          
         public void stopListening()
         {
@@ -101,11 +141,17 @@ public class GPSManager
                                 GPSManager.locationManager.removeUpdates(GPSManager.locationListener);
                         }
                          
-                        GPSManager.locationManager = null;
+                        //GPSManager.locationManager = null;
+                        //GPSManager.locationListener=null;
                 }
                 catch (final Exception ex)
                 {
                          
                 }
+        }
+        
+        public Location LastLocation(){
+        		return GPSManager.locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
+
         }
 }

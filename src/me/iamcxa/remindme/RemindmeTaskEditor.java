@@ -6,6 +6,7 @@ package me.iamcxa.remindme;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor;
+import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor.GpsSetting;
 import me.iamcxa.remindme.provider.GPSCallback;
 import me.iamcxa.remindme.provider.GPSManager;
 import me.iamcxa.remindme.provider.GeocodingAPI;
@@ -33,6 +35,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -62,10 +65,10 @@ import me.iamcxa.remindme.provider.WorkaroundMapFragment;
 
 public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallback {
 
-	//GPS模組
+	//宣告GPS模組
 	private static  GPSManager gpsManager = null;
 	
-	//pick
+	//宣告pick
 	private static GoogleMap map;
 	
 	private static EditText tittlEditText;
@@ -126,6 +129,10 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private static Double Latitude;
 	private static Double Longitude;
 	private static ScrollView main_scrollview;
+	
+	private Handler  GpsTimehandler = new Handler();
+	//gps使用時間
+	private static int GpsUseTime = 0;
 	// 備忘錄ID
 	private int id1;
 	// 多選框
@@ -174,12 +181,14 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 		Search.setOnClickListener(SearchPlace);
 		OK.setOnClickListener(SearchPlace);
 		gpsManager = new GPSManager();
-		gpsManager.startListening(getApplicationContext());
+		gpsManager.startGpsListening(getApplicationContext());
 	    gpsManager.setGPSCallback(RemindmeTaskEditor.this);
+	    GpsSetting.GpsStatus =true;
+	    GpsUseTime=0;
+	    GpsTimehandler.post(GpsTime);
 	    
 //	    map = ((MapFragment) getFragmentManager()
 //				 .findFragmentById(R.id.map)).getMap();
-	    
 	    map = ((WorkaroundMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 	    main_scrollview = (ScrollView) findViewById(R.id.main_scrollview);
  
@@ -190,17 +199,21 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
           }
        	});
 		map.setMyLocationEnabled(true);
-		
-		LatLng nowLoacation = new LatLng(23.6978, 120.961);
-
-        map.setMyLocationEnabled(true);
-       
         map.clear();
-        
-        map.moveCamera((CameraUpdateFactory.newLatLngZoom(nowLoacation,map.getMinZoomLevel()+7)));
-
+        LatLng nowLoacation;
+		if(gpsManager.LastLocation()!=null)
+		{
+			nowLoacation = new LatLng(gpsManager.LastLocation().getLatitude(), gpsManager.LastLocation().getLongitude());
+	        map.moveCamera((CameraUpdateFactory.newLatLngZoom(nowLoacation,map.getMaxZoomLevel()-4)));
+		}
+		else
+		{
+			nowLoacation = new LatLng(23.6978, 120.961);
+			map.moveCamera((CameraUpdateFactory.newLatLngZoom(nowLoacation,map.getMinZoomLevel()+7)));
+		}
         map.addMarker(new MarkerOptions()
-                .title("愛台灣啦!!")
+                .title("當前位置")
+                .draggable(true)
                 .position(nowLoacation));
         
         map.setOnCameraChangeListener(listener);
@@ -661,6 +674,7 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 
 	};
 
+	//GPS位置抓到時會更新位置
 	@Override
 	public void onGPSUpdate(Location location) {
 		// TODO Auto-generated method stub
@@ -670,10 +684,18 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 		
 		//textView1.setText("經緯度:"+Latitude+","+Longitude);
 		//拿到經緯度後馬上關閉
-		gpsManager.stopListening();
-        gpsManager.setGPSCallback(null);
-        gpsManager = null;
-        
+		Toast.makeText(getApplicationContext(), "關閉GPS"+location, Toast.LENGTH_LONG).show();
+		
+		if(GpsSetting.GpsStatus)
+		{
+			GpsSetting.GpsStatus = false;
+			gpsManager.stopListening();
+	        gpsManager.setGPSCallback(null);
+	        gpsManager = null;
+		}
+		else{
+			GpsSetting.GpsStatus = false;
+		}
         LatLng nowLoacation = new LatLng(Latitude, Longitude);
 
         map.setMyLocationEnabled(true);
@@ -689,6 +711,8 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
         GeocodingAPI LoacationAddress = new GeocodingAPI(getApplicationContext(),Latitude+","+Longitude);
        // textView2.setText(textView2.getText()+" "+LoacationAddress.GeocodingApiAddressGet());
 	}
+	
+	
 	private Button.OnClickListener SearchPlace = new Button.OnClickListener(){
 		public void onClick(View v){
 			//宣告GPSManager
@@ -727,6 +751,7 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 		}
 	};
 	
+	//地圖移動時更新指針位置
 	private GoogleMap.OnCameraChangeListener listener = new GoogleMap.OnCameraChangeListener() {
 		
 		@Override
@@ -740,7 +765,23 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 		}
 	};
 	
-
+	private Runnable GpsTime = new Runnable() {
+	    public void run() {
+		 GpsUseTime++;
+	     // Timeout Sec, 超過TIMEOUT設定時間後,直接設定FLAG使得getCurrentLocation抓取    lastlocation. 
+	     if( GpsUseTime > GpsSetting.TIMEOUT_SEC ){
+	    	 if(GpsSetting.GpsStatus){
+	    		 gpsManager.stopListening();
+	    	     gpsManager.startNetWorkListening(getApplicationContext());
+	    		 GpsSetting.GpsStatus =true;
+	    		 Toast.makeText(getApplicationContext(), "關閉GPS", Toast.LENGTH_LONG).show();
+	    	 }
+	      }else
+	      {
+	    	  GpsTimehandler.postDelayed(this, 1000);
+	      }
+	    }
+	}; 
 }
 
 // * CLASS JUST FOR THE CUSTOM ALERT DIALOG

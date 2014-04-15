@@ -128,5 +128,14 @@ public class CommonUtils {
 			// 18 提醒之聲音檔案路徑
 			// public static final String AlarmSoundPath = "AlarmSoundPath";
 		}
+		
+		public static class GpsSetting{
+			//GPS超時關閉改用wifi
+			public static final int TIMEOUT_SEC = 5;
+			//Gps狀態
+			public static boolean GpsStatus=false;
+			
+			
+		}
 	}
 }
