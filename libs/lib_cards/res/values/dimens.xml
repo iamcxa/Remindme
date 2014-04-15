@@ -71,7 +71,7 @@
     <dimen name="card_thumbnail_height">72dp</dimen>
 
     <!-- Expand -->
-    <dimen name="card_expand_layout_padding">2dp</dimen>
+    <dimen name="card_expand_layout_padding">8dp</dimen>
     <dimen name="card_expand_simple_title_paddingLeft">10dp</dimen>
     <dimen name="card_expand_simple_title_paddingRight">10dp</dimen>
     <dimen name="card_expand_simple_title_text_size">14sp</dimen>

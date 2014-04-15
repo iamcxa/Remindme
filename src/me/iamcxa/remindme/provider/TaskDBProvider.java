@@ -48,54 +48,33 @@ public class TaskDBProvider extends ContentProvider {
 		DatabaseHelper(Context context) {
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		}
+
 		// 建立資料表
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL("CREATE TABLE "
-					+ TASK_LIST_TABLE_NAME
-					+ " ("
-					+ RemindmeTaskCursor.KeyColumns.KEY_ID // 0
-					+ " INTEGER PRIMARY KEY autoincrement,"
-					+ RemindmeTaskCursor.KeyColumns.GoogleCalSyncID // 1
-					+ " TEXT,"
-					+ RemindmeTaskCursor.KeyColumns.Tittle // 2
-					+ " TEXT," // 2
-					+ RemindmeTaskCursor.KeyColumns.StartTime // 3
-					+ " TEXT,"
-					+ RemindmeTaskCursor.KeyColumns.EndTime
-					+ " TEXT," // 4
-					+ RemindmeTaskCursor.KeyColumns.StartDate
-					+ " TEXT," // 5
-					+ RemindmeTaskCursor.KeyColumns.EndDate
-					+ " TEXT," // 6
-					+ RemindmeTaskCursor.KeyColumns.Is_Repeat
-					+ " INTEGER," // 7
-					+ RemindmeTaskCursor.KeyColumns.Is_AllDay
-					+ " INTEGER," // 8
-					+ RemindmeTaskCursor.KeyColumns.LocationName
-					+ " TEXT," // 9
-					+ RemindmeTaskCursor.KeyColumns.Coordinates
-					+ " TEXT," // 10
-					+ RemindmeTaskCursor.KeyColumns.Distance
-					+ " TEXT," // 11
-					+ RemindmeTaskCursor.KeyColumns.CalendarID
-					+ " TEXT," // 12
-					+ RemindmeTaskCursor.KeyColumns.CONTENT
-					+ " TEXT," // 13
-					+ RemindmeTaskCursor.KeyColumns.CREATED
-					+ " TEXT," // 14
-					+ RemindmeTaskCursor.KeyColumns.Is_Alarm_ON
-					+ " INTEGER,"// 15
-					+ RemindmeTaskCursor.KeyColumns.Is_Hide_ON
-					+ " INTEGER," // 16
-					+ RemindmeTaskCursor.KeyColumns.Is_PW_ON
-					+ " INTEGER," // 17
-					+ RemindmeTaskCursor.KeyColumns.Password
-					+ " TEXT," // 18
-					+ RemindmeTaskCursor.KeyColumns.PriorityWeight
-					+ " INTEGER," // 19
-					+ RemindmeTaskCursor.KeyColumns.Collaborators + " TEXT," // 20
-					+ RemindmeTaskCursor.KeyColumns.other + " TEXT" // 21
+			db.execSQL("CREATE TABLE " + TASK_LIST_TABLE_NAME + " ("
+					+ RemindmeTaskCursor.KeyColumns.KEY_ID	+ " INTEGER PRIMARY KEY autoincrement,"
+					+ RemindmeTaskCursor.KeyColumns.Tittle + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.StartDate + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.EndDate + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.StartTime + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.EndTime + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.Is_Repeat + " INTEGER,"
+					+ RemindmeTaskCursor.KeyColumns.Is_AllDay + " INTEGER,"
+					+ RemindmeTaskCursor.KeyColumns.LocationName + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.Coordinates + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.Distance + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.CONTENT + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.CREATED + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.Is_Alarm_ON + " INTEGER,"
+					+ RemindmeTaskCursor.KeyColumns.Is_Hide_ON + " INTEGER,"
+					+ RemindmeTaskCursor.KeyColumns.Is_PW_ON + " INTEGER,"
+					+ RemindmeTaskCursor.KeyColumns.Password + " TEXT,"
+					+ RemindmeTaskCursor.KeyColumns.PriorityWeight + " INTEGER,"
+					+ RemindmeTaskCursor.KeyColumns.Collaborators+ " TEXT," 
+					+ RemindmeTaskCursor.KeyColumns.CalendarID + " TEXT," 
+					+ RemindmeTaskCursor.KeyColumns.GoogleCalSyncID	+ " TEXT," 
+					+ RemindmeTaskCursor.KeyColumns.other + " TEXT" 
 					+ ");");
 		}
 
@@ -305,7 +284,9 @@ public class TaskDBProvider extends ContentProvider {
 		sTaskListProjectionMap.put(RemindmeTaskCursor.KeyColumns.other,
 				RemindmeTaskCursor.KeyColumns.other);
 		sTaskListProjectionMap.put(RemindmeTaskCursor.KeyColumns.Collaborators,
-				RemindmeTaskCursor.KeyColumns.Collaborators);
+				RemindmeTaskCursor.KeyColumns.Collaborators);	
+		sTaskListProjectionMap.put(RemindmeTaskCursor.KeyColumns.Coordinates,
+						RemindmeTaskCursor.KeyColumns.Coordinates);
 
 	}
 }

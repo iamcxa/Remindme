@@ -3,8 +3,17 @@
  */
 package me.iamcxa.remindme;
 
+import java.io.OptionalDataException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import android.R.integer;
+import android.R.string;
+import android.annotation.SuppressLint;
+import android.graphics.BitmapFactory.Options;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 /**
  * @author cxa
@@ -29,7 +38,74 @@ public class CommonUtils {
 	// 預設排序常數
 	public static final String DEFAULT_SORT_ORDER = "created DESC";
 
+	// debug msg TAG
+	public static final String debugMsgTag = "debugmsg";
+	// debug msg on/off
+	public static final int debugMsg = 1;
+
 	private CommonUtils() {
+	}
+
+	/***********************/
+	/** debug msg section **/
+	/***********************/
+	public static final void debugMsg(int section, String msgs) {
+		if (debugMsg == 1) {
+			switch (section) {
+			case 0:
+				Log.w(debugMsgTag, " " + msgs);
+				break;
+			case 1:
+				Log.w(debugMsgTag, "thread " + msgs);
+				break;
+			case 999:
+				Log.w(debugMsgTag, "時間計算失敗!," + msgs);
+				break;
+			default:
+				break;
+			}
+		}
+
+	}
+
+	/***********************/
+	/** getDaysLeft **/
+	/***********************/
+	@SuppressLint("SimpleDateFormat")
+	public static long getDaysLeft(String TaskDate) {
+
+		// 定義時間格式
+		// java.text.SimpleDateFormat sdf = new
+		// java.text.SimpleDateFormat("yyyy/MM/dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+
+		// 取得現在時間
+		Date now = new Date();
+		String nowDate = sdf.format(now);
+		debugMsg(0, "now:" + nowDate + ", task:" + TaskDate);
+		try {
+			// 取得事件時間與現在時間
+			Date dt1 = sdf.parse(nowDate);
+			Date dt2 = sdf.parse(TaskDate);
+
+			// 取得兩個時間的Unix時間
+			Long ut1 = dt1.getTime();
+			Long ut2 = dt2.getTime();
+
+			Long timeP = ut2 - ut1;// 毫秒差
+			// 相減獲得兩個時間差距的毫秒
+			// Long sec = timeP / 1000;// 秒差
+			// Long min = timeP / 1000 * 60;// 分差
+			// Long hr = timeP / 1000 * 60 * 60;// 時差
+			Long day = timeP / (1000 * 60 * 60 * 24);// 日差
+			debugMsg(0, "Get days left Sucessed! " + day);
+			return day;
+		} catch (Exception e) {
+			// TODO: handle exception
+			debugMsg(999, e.toString());
+			return -1;
+		}
+
 	}
 
 	// 內部類別
@@ -40,43 +116,52 @@ public class CommonUtils {
 
 		// 查詢欄位陣列
 		public static final String[] PROJECTION = new String[] {
-				KeyColumns.KEY_ID, KeyColumns.GoogleCalSyncID,
-				KeyColumns.CalendarID, KeyColumns.Tittle, KeyColumns.StartDate,
-				KeyColumns.EndDate, KeyColumns.StartTime, KeyColumns.EndTime,
-				KeyColumns.Is_Repeat, KeyColumns.Is_AllDay,
-				KeyColumns.LocationName, KeyColumns.Distance,
-				KeyColumns.CONTENT, KeyColumns.PriorityWeight,
-				KeyColumns.Collaborators, KeyColumns.CREATED,
-				KeyColumns.CONTENT, KeyColumns.Is_Hide_ON, KeyColumns.Is_PW_ON,
-				KeyColumns.Password, KeyColumns.Is_Alarm_ON, KeyColumns.other };
-
-		public static final String KEY_TITLE = "title";
-		public static final String KEY_SUBTITLE = "subtitle";
-		public static final String KEY_HEADER = "header";
-		public static final String KEY_THUMBNAIL = "thumb";
+				KeyColumns.KEY_ID, // 0
+				KeyColumns.Tittle, // 1
+				KeyColumns.StartDate, // 2
+				KeyColumns.EndDate,// 3
+				KeyColumns.StartTime, // 4
+				KeyColumns.EndTime,// 5
+				KeyColumns.Is_Repeat, // 6
+				KeyColumns.Is_AllDay,// 7
+				KeyColumns.LocationName, // 8
+				KeyColumns.Coordinates,// 9
+				KeyColumns.Distance,// 10
+				KeyColumns.CONTENT,// 11
+				KeyColumns.CREATED,// 12
+				KeyColumns.Is_Alarm_ON, // 13
+				KeyColumns.Is_Hide_ON,// 14
+				KeyColumns.Is_PW_ON,// 15
+				KeyColumns.Password,// 16
+				KeyColumns.PriorityWeight,// 17
+				KeyColumns.Collaborators,// 18
+				KeyColumns.CalendarID,// 19
+				KeyColumns.GoogleCalSyncID,// 20
+				KeyColumns.other // 21
+		};
 
 		public static class IndexColumns {
 			public static final int KEY_ID = 0;
-			public static final int GoogleCalSyncID = 1;
-			public static final int Tittle = 2;
-			public static final int StartTime = 3;
-			public static final int EndTime = 4;
-			public static final int StartDate = 5;
-			public static final int EndDate = 6;
-			public static final int Is_Repeat = 7;
-			public static final int Is_AllDay = 8;
-			public static final int LocationName = 9;
-			public static final int Coordinates = 10;
-			public static final int Distance = 11;
-			public static final int CalendarID = 12;
-			public static final int CONTENT = 13;
-			public static final int CREATED = 14;
-			public static final int Is_Alarm_ON = 15;
-			public static final int Is_Hide_ON = 16;
-			public static final int Is_PW_ON = 17;
-			public static final int Password = 18;
-			public static final int PriorityWeight = 19;
-			public static final int Collaborators = 20;
+			public static final int Tittle = 1;
+			public static final int StartDate = 2;
+			public static final int EndDate = 3;
+			public static final int StartTime = 4;
+			public static final int EndTime = 5;
+			public static final int Is_Repeat = 6;
+			public static final int Is_AllDay = 7;
+			public static final int LocationName = 8;
+			public static final int Coordinates = 9;
+			public static final int Distance = 10;
+			public static final int CalendarID = 11;
+			public static final int CONTENT = 12;
+			public static final int CREATED = 13;
+			public static final int Is_Alarm_ON = 14;
+			public static final int Is_Hide_ON = 15;
+			public static final int Is_PW_ON = 16;
+			public static final int Password = 17;
+			public static final int PriorityWeight = 18;
+			public static final int Collaborators = 19;
+			public static final int GoogleCalSyncID = 20;
 			public static final int other = 21;
 			// public static final int AlarmSoundPath = "AlarmSoundPath";
 		}

@@ -18,9 +18,15 @@
 
 package me.iamcxa.remindme.cardfragment;
 
+import java.util.Date;
+
+import com.google.android.gms.internal.el;
+
 import me.iamcxa.remindme.CommonUtils;
 import me.iamcxa.remindme.R;
 import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor;
+import android.R.integer;
+import android.R.string;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -36,6 +42,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.Card.OnLongCardClickListener;
 import it.gmariotti.cardslib.library.internal.CardCursorAdapter;
 import it.gmariotti.cardslib.library.internal.CardExpand;
 import it.gmariotti.cardslib.library.internal.CardHeader;
@@ -157,37 +164,123 @@ public class ListCursorCardFragment extends BaseFragment implements
 			// Add Header to card
 			card.addCardHeader(header);
 
-			MyThumbnail thumb = new MyThumbnail(getActivity());
+			final MyCardThumbnail thumb = new MyCardThumbnail(getActivity());
 			thumb.setDrawableResource(card.resourceIdThumb);
 			card.addCardThumbnail(thumb);
 
-			card.setOnClickListener(new Card.OnCardClickListener() {
-				@Override
-				public void onClick(Card card, View view) {
-					Toast.makeText(
-							getContext(),
-							"Card id=" + card.getId() + " Title="
-									+ card.getTitle(), Toast.LENGTH_SHORT)
-							.show();
-				}
+			// Set onClick listener
+			card.addPartialOnClickListener(Card.CLICK_LISTENER_CONTENT_VIEW,
+					new Card.OnLongCardClickListener() {
+						@Override
+						public boolean onLongClick(Card card, View view) {
+							Toast.makeText(
+									getContext(),
+									"Card id=" + card.getId()
+											+ "LONG Click on Content Area",
+									Toast.LENGTH_SHORT).show();
+							return true;
+						}
+					});
 
-			});
+			// Set a clickListener on ContentArea
+			card.addPartialOnClickListener(Card.CLICK_LISTENER_CONTENT_VIEW,
+					new Card.OnCardClickListener() {
+						@Override
+						public void onClick(Card card, View view) {
+							Toast.makeText(
+									getContext(),
+									"Card id=" + card.getId()
+											+ "Click on Content Area",
+									Toast.LENGTH_SHORT).show();
+						}
+					});
+
+			// Set a clickListener on Header Area
+			card.addPartialOnClickListener(Card.CLICK_LISTENER_HEADER_VIEW,
+					new Card.OnCardClickListener() {
+						@Override
+						public void onClick(Card card, View view) {
+							Toast.makeText(
+									getActivity(),
+									"Card id=" + card.getId()
+											+ "Click on Header Area",
+									Toast.LENGTH_LONG).show();
+						}
+					});
+
 			return card;
 		}
 
 		private void setCardFromCursor(MyCursorCard card, Cursor cursor) {
+			// 準備常數
+			CommonUtils.debugMsg(0, "prepare data from cursor...");
+			boolean NoLocation = cursor
+					.isNull(CommonUtils.RemindmeTaskCursor.IndexColumns.LocationName);
+			boolean NoExtrainfo = cursor
+					.isNull(CommonUtils.RemindmeTaskCursor.IndexColumns.other);
+			int CID = cursor
+					.getInt(CommonUtils.RemindmeTaskCursor.IndexColumns.KEY_ID);
+			String dintence = cursor
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.Distance);
+			String startTime = cursor
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.StartTime);
+			String endTime = cursor
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.EndTime);
+			String endDate = cursor
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.EndDate);
+			String LocationName = cursor
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.LocationName);
+			long dayLeft = CommonUtils.getDaysLeft(endDate);
+			// int dayLeft = Integer.parseInt("" + dayLeftLong);
+
 			// give a ID.
-			card.setId(""
-					+ cursor.getInt(CommonUtils.RemindmeTaskCursor.IndexColumns.KEY_ID));
+			CommonUtils.debugMsg(0, "set ID...Card id=" + CID);
+			card.setId("" + CID);
 
 			// 卡片標題 - first line
+			CommonUtils.debugMsg(0, CID + " set Tittle...");
 			card.mainHeader = cursor
-					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.Tittle + 1);
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.Tittle);
 
 			// 時間日期 - sec line
-			card.DateTime = cursor.getString(3);
-			card.secondaryTitle = cursor.getString(3);
-			card.ThirdTitle = cursor.getString(0);
+			CommonUtils.debugMsg(0, CID + " set Date/Time...");
+			CommonUtils.debugMsg(0, CID + " dayleft=" + dayLeft);
+			if ((180 > dayLeft) && (dayLeft > 14)) {
+				card.DateTime = "再 " + (int) Math.floor(dayLeft) / 30
+						+ " 個月 - " + endDate;
+			} else if ((14 > dayLeft) && (dayLeft > 0)) {
+				card.DateTime = "再 " + dayLeft + " 天 - " + endDate;
+			} else if ((2 > dayLeft) && (dayLeft > 0)) {
+				card.DateTime = "再 " + (int) Math.floor(dayLeft * 24)
+						+ "小時後 - " + endDate;
+			} else if (dayLeft == 0) {
+				card.DateTime = "今天 - " + endDate;
+			} else {
+				card.DateTime = endDate;
+			}
+
+			CommonUtils.debugMsg(0, "Location=\"" + LocationName + "\"");
+			CommonUtils.debugMsg(0, "dintence=" + dintence);
+			// 小圖標顯示 - 判斷是否存有地點資訊
+			if (!NoLocation) {
+				card.resourceIdThumb = R.drawable.map_marker;
+				// 距離與地點資訊
+				if (dintence == null) {
+					card.LocationName = LocationName;
+				} else {
+					card.LocationName = "距離 " + dintence + " 公里 - "
+							+ LocationName;
+				}
+				// 可展開額外資訊欄位
+			} else if (!NoExtrainfo) {
+				card.resourceIdThumb = R.drawable.outline_star_act;
+				// 額外資訊提示 - 第四行
+				card.Notifications = cursor.getString(0);
+
+			} else {
+				card.resourceIdThumb = R.drawable.tear_of_calendar;
+				card.LocationName = null;
+			}
 
 			// This provides a simple (and useless) expand area
 			CardExpand expand = new CardExpand(getActivity());
@@ -195,20 +288,6 @@ public class ListCursorCardFragment extends BaseFragment implements
 			expand.setTitle(getString(R.string.app_name));
 			card.addCardExpand(expand);
 
-			boolean isLocation = cursor
-					.isNull(CommonUtils.RemindmeTaskCursor.IndexColumns.LocationName);
-			boolean isExtrainfo = cursor
-					.isNull(CommonUtils.RemindmeTaskCursor.IndexColumns.other);
-
-			// 給予地圖/月曆/有新提示之小圖標
-			if (!isLocation) {
-				card.resourceIdThumb = R.drawable.map_marker;
-			} else if (!isExtrainfo) {
-				card.resourceIdThumb = R.drawable.outline_star_act;
-			} else {
-				card.resourceIdThumb = R.drawable.tear_of_calendar;
-			}
-
 			// 依照權重給予卡片顏色
 			if (cursor
 					.getInt(CommonUtils.RemindmeTaskCursor.IndexColumns.PriorityWeight) > 200) {
@@ -218,65 +297,37 @@ public class ListCursorCardFragment extends BaseFragment implements
 				card.setBackgroundResourceId(R.drawable.demo_card_selector_color3);
 			}
 
-			// 依照權重給予卡片顏色
-			if (cursor
-					.getInt(CommonUtils.RemindmeTaskCursor.IndexColumns.PriorityWeight) > 200) {
-				card.setBackgroundResourceId(R.drawable.demo_card_selector_color5);
-			} else if (cursor
-					.getInt(CommonUtils.RemindmeTaskCursor.IndexColumns.PriorityWeight) > 100) {
-				card.setBackgroundResourceId(R.drawable.demo_card_selector_color3);
-			}
-
-			/*
-			 * int thumb = cursor
-			 * .getInt(CommonUtils.RemindmeTaskCursor.IndexColumns.KEY_ID);
-			 * switch (thumb / 2) { case 0: card.resourceIdThumb =
-			 * R.drawable.bubble;
-			 * card.setBackgroundResourceId(R.drawable.demo_card_selector_color5
-			 * ); break; case 1: card.resourceIdThumb = R.drawable.act_browser;
-			 * card
-			 * .setBackgroundResourceId(R.drawable.demo_card_selector_color5);
-			 * break; case 2: card.resourceIdThumb = R.drawable.ic_play_store;
-			 * card
-			 * .setBackgroundResourceId(R.drawable.demo_card_selector_color3);
-			 * break; case 3: card.resourceIdThumb = R.drawable.arrow;
-			 * card.setBackgroundResourceId
-			 * (R.drawable.demo_card_selector_color2); break; case 4:
-			 * card.resourceIdThumb = R.drawable.ws_icon_large;
-			 * card.setBackgroundResourceId
-			 * (R.drawable.demo_card_selector_color4); break;
-			 * 
-			 * }
-			 */
 		}
 	}
 
-	private void removeCard(Card card) {
-
-		// Use this code to delete items on DB
-		ContentResolver resolver = getActivity().getContentResolver();
-		long noDeleted = resolver.delete(CommonUtils.CONTENT_URI,
-				CommonUtils.RemindmeTaskCursor.KeyColumns.KEY_ID + " = ? ",
-				new String[] { card.getId() });
-
-		// mAdapter.notifyDataSetChanged();
-
-	}
+	/*
+	 * private void removeCard(Card card) {
+	 * 
+	 * // Use this code to delete items on DB ContentResolver resolver =
+	 * getActivity().getContentResolver(); long noDeleted =
+	 * resolver.delete(CommonUtils.CONTENT_URI,
+	 * CommonUtils.RemindmeTaskCursor.KeyColumns.KEY_ID + " = ? ", new String[]
+	 * { card.getId() });
+	 * 
+	 * // mAdapter.notifyDataSetChanged();
+	 * 
+	 * }
+	 */
 
 	/***********************/
 	/** Class MyThumbnail **/
 	/***********************/
 	// implment the clickable card thumbnail.
-	class MyThumbnail extends CardThumbnail {
+	class MyCardThumbnail extends CardThumbnail {
 
-		public MyThumbnail(Context context) {
+		public MyCardThumbnail(Context context) {
 			super(context);
 		}
 
 		@Override
 		public void setupInnerViewElements(ViewGroup parent, View imageView) {
 			ViewToClickToExpand viewToClickToExpand = ViewToClickToExpand
-					.builder().highlightView(false).setupView(imageView);
+					.builder().highlightView(true).setupView(imageView);
 			getParentCard().setViewToClickToExpand(viewToClickToExpand);
 		}
 	}
@@ -287,14 +338,26 @@ public class ListCursorCardFragment extends BaseFragment implements
 	public class MyCursorCard extends Card {
 
 		String DateTime;
-		String secondaryTitle;
-		String ThirdTitle;
+		String LocationName;
+		String Notifications;
 		String mainHeader;
 
 		int resourceIdThumb;
 
 		public MyCursorCard(Context context) {
 			super(context, R.layout.card_cursor_inner_content);
+		}
+
+		/**********************/
+		/**
+		 * @param clickListenerContentView
+		 *            /** @param onLongCardClickListener
+		 **/
+		/**********************/
+		public void addPartialOnClickListener(int clickListenerContentView,
+				OnLongCardClickListener onLongCardClickListener) {
+			// TODO Auto-generated method stub
+
 		}
 
 		@Override
@@ -311,10 +374,10 @@ public class ListCursorCardFragment extends BaseFragment implements
 				mTitleTextView.setText(DateTime);
 
 			if (mSecondaryTitleTextView != null)
-				mSecondaryTitleTextView.setText(secondaryTitle);
+				mSecondaryTitleTextView.setText(LocationName);
 
 			if (mThirdTitleTextView != null)
-				mThirdTitleTextView.setText(ThirdTitle);
+				mThirdTitleTextView.setText(Notifications);
 
 		}
 	}
