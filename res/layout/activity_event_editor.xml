@@ -53,7 +53,7 @@
         <ListView
             android:id="@+id/listView1"
             android:layout_width="fill_parent"
-            android:layout_height="260dp"
+            android:layout_height="330dp"
             android:background="@color/background_window"
             android:drawSelectorOnTop="true" >
         </ListView>
