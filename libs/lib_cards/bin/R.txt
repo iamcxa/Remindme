@@ -158,7 +158,7 @@ int style list_card_thumbnail 0x7f090018
 int style list_card_UndoBar 0x7f09001a
 int style list_card_UndoBarButton 0x7f09001c
 int style list_card_UndoBarMessage 0x7f09001b
-int[] styleable ForegroundLinearLayout { 0x01010109, 0x01010200, 0x010103f1 }
+int[] styleable ForegroundLinearLayout { 0x01010109, 0x01010200, 0x01010405 }
 int styleable ForegroundLinearLayout_android_foreground 0
 int styleable ForegroundLinearLayout_android_foregroundGravity 1
 int styleable ForegroundLinearLayout_android_foregroundInsidePadding 2

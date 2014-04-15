@@ -1,30 +1,36 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:id="@+id/main_scrollview"
+	android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >"
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
     android:background="@color/background_window"
-    android:fadingEdge="vertical"
+    android:orientation="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:scrollbarStyle="insideOverlay"
     android:scrollbars="vertical"
     tools:context="me.iamcxa.remindme.ActivityEditor" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
         android:background="@color/background_tab_pressed" >
 
         <EditText
             android:id="@+id/editTextTittle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_centerHorizontal="true"
             android:ems="10"
             android:height="50dp"
@@ -43,25 +49,53 @@
 
             <requestFocus />
         </EditText>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/relativeLayout1"
-        android:orientation="vertical" >
-
+		    
         <ListView
             android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="260dp"
             android:background="@color/background_window"
             android:drawSelectorOnTop="true" >
         </ListView>
-    </LinearLayout>
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/SearchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:hint="輸入搜尋地點"
+                android:ems="10" />
+            
+            <Button
+                android:id="@+id/Search"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="搜尋" />
+            <Button
+                android:id="@+id/OK"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="確認" />
+
+        </LinearLayout>
+        
+        <fragment
+		    android:id="@+id/map"
+		    class="me.iamcxa.remindme.provider.WorkaroundMapFragment"
+		    android:layout_width="match_parent"
+		    android:layout_height="300dp"/>
+
+		    
+    </LinearLayout>
+    
+</LinearLayout>
+</ScrollView>
