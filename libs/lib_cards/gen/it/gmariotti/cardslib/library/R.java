@@ -312,7 +312,7 @@ Style for simple title header inner view
            @see #ForegroundLinearLayout_android_foregroundInsidePadding
          */
         public static final int[] ForegroundLinearLayout = {
-            0x01010109, 0x01010200, 0x01010405
+            0x01010109, 0x01010200, 0x010103f1
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#foreground}
