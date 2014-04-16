@@ -50,7 +50,11 @@ public class GeocodingAPIJsonDecode {
 				Object lat2 = PlaceArray.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").get("lat");
 				Object lng2 = PlaceArray.getJSONObject(0).getJSONObject("geometry").getJSONObject("location").get("lng");
 				LatLng = new LatLng((Double)lat2,(Double)lng2);	
-				}
+			}
+			else
+			{
+				return null	;
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

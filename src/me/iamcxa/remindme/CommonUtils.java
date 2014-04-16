@@ -48,7 +48,8 @@ public class CommonUtils {
 				KeyColumns.CONTENT, KeyColumns.PriorityWeight,
 				KeyColumns.Collaborators, KeyColumns.CREATED,
 				KeyColumns.CONTENT, KeyColumns.Is_Hide_ON, KeyColumns.Is_PW_ON,
-				KeyColumns.Password, KeyColumns.Is_Alarm_ON, KeyColumns.other };
+				KeyColumns.Password, KeyColumns.Is_Alarm_ON, KeyColumns.other ,
+				};
 
 		public static final String KEY_TITLE = "title";
 		public static final String KEY_SUBTITLE = "subtitle";

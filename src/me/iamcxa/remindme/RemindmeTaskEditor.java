@@ -3,6 +3,8 @@
  */
 package me.iamcxa.remindme;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,6 +39,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,6 +104,9 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private static Button OK;
 	
 	private static EditText SearchText;
+	
+	private static String LastTimeSearchName="";
+	
 	// 是否開啟提醒
 	private int on_off = 0;
 	// 是否聲音警告
@@ -133,12 +139,15 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private Handler  GpsTimehandler = new Handler();
 	//gps使用時間
 	private static int GpsUseTime = 0;
+	//是否有搜尋過地點
+	private static  Boolean isdidSearch = false;
 	// 備忘錄ID
 	private int id1;
 	// 多選框
 	private CheckedTextView ctv1, ctv2;
 	// 存取佈局實例
 	private static LayoutInflater li;
+
 
 	// 初始化方法
 	private void init(Intent intent) {
@@ -275,7 +284,7 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	// ListView Adatper，該類別實作列表的每一項透過自定視圖實現
 	static class ViewAdapter extends BaseAdapter {
 		// 列表內容
-		String[] strs = { "截止日", "提醒時間", "備註", "地點" };
+		String[] strs = { "截止日", "提醒時間", "備註"};
 
 		// 取得列表數量
 		// @Override
@@ -355,24 +364,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 				contentDesc.setTextColor(Color.GRAY);
 				return textView;
 				// 地點選擇與輸入
-			case 3:
-				/*
-				 * locationBox=(EditText)
-				 * editView.findViewById(R.id.editTextbox);
-				 * locationBox.setHint("輕觸以輸入地點");
-				 * locationBox.setHintTextColor(R.color.background_window);
-				 * locationBox.setText(locationName); locationTittle =
-				 * (TextView) editView.findViewById(R.id.name);
-				 * locationTittle.setText(strs[position]);
-				 */
-				locationTittle = (TextView) textView.findViewById(R.id.name);
-				locationDesc = (TextView) textView.findViewById(R.id.desc);
-				locationTittle.setText(strs[position]);
-
-				locationDesc.setText(locationName);
-				contentDesc.setTextColor(Color.GRAY);
-
-				return textView;
 				// 是否開啟提醒
 				/*
 				 * case 5: ctv2 = (CheckedTextView) li .inflate(
@@ -418,15 +409,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 				break;
 
 			// 設定是否開啟語音提醒
-			case 3:
-				/*
-				 * ctv2 = (CheckedTextView) v; if (ctv2.isChecked()) { alarm =
-				 * 0; setAlarm(false); } else { alarm = 1; setAlarm(true); }
-				 */
-
-				showDialog1("請輸入地點：", "地點", position);
-				break;
-
 			default:
 				break;
 			}
@@ -490,8 +472,6 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 		case 2:
 			switcher = content;
 			break;
-		case 3:
-			switcher = locationName;
 		default:
 			break;
 		}
@@ -506,7 +486,7 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 						content = editTextbox.getText().toString();
 
 						contentDesc.setText(switcher);
-						locationDesc.setText(switcher);
+						//locationDesc.setText(switcher);
 					}
 				}).show();
 
@@ -567,8 +547,9 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 			values.put(RemindmeTaskCursor.KeyColumns.CONTENT, contentDesc
 					.getText().toString());
 			// save the name string of location
-			values.put(RemindmeTaskCursor.KeyColumns.LocationName, locationDesc
+			values.put(RemindmeTaskCursor.KeyColumns.LocationName, SearchText
 					.getText().toString());
+			values.put(RemindmeTaskCursor.KeyColumns.Coordinates,Latitude+","+Longitude);
 			// save the value of loaction picker
 			/*
 			 * values.put(RemindmeTasks.EndDate, dateDesc.getText().toString());
@@ -645,6 +626,13 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private MenuItem.OnMenuItemClickListener btnActionAddClick = new MenuItem.OnMenuItemClickListener() {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
+			if(!isdidSearch && !SearchText.getText().toString().equals(""))
+			{
+				//SearchPlace();
+				GeocodingAPI LoacationAddress = new GeocodingAPI(getApplicationContext(),SearchText.getText().toString());
+				Longitude = LoacationAddress.GeocodingApiLatLngGet().longitude;
+				Latitude = LoacationAddress.GeocodingApiLatLngGet().latitude;
+			}
 			saveOrUpdate();
 			finish();
 			return true;
@@ -716,32 +704,30 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private Button.OnClickListener SearchPlace = new Button.OnClickListener(){
 		public void onClick(View v){
 			//宣告GPSManager
-
 		    switch (v.getId()) {
 			case R.id.OK:
 		        //textView2.setText(textView2.getText()+"\n"+LoacationAddress.GeocodingApiAddressGet());  //獲取地址
 		        //textView2.setText(textView2.getText()+"\n"+LoacationAddress.GeocodingApiLatLngGet());  //獲取經緯度
+				if(!isdidSearch || !SearchText.getText().toString().equals(LastTimeSearchName))
+				{
+					SearchPlace();
+					isdidSearch=true;
+					LastTimeSearchName = SearchText.getText().toString();
+				}
 				GeocodingAPI LoacationAddress = new GeocodingAPI(getApplicationContext(),map.getCameraPosition().target.latitude+","+map.getCameraPosition().target.longitude);
 				Longitude = LoacationAddress.GeocodingApiLatLngGet().longitude;
 				Latitude = LoacationAddress.GeocodingApiLatLngGet().latitude;
-				locationName = LoacationAddress.GeocodingApiAddressGet();
-				Toast.makeText(getApplicationContext(), "獲取經緯度"+map.getCameraPosition().target.latitude+","+map.getCameraPosition().target.longitude+"\n地址:"+locationName, Toast.LENGTH_SHORT).show();
-
+				//locationDesc = LoacationAddress.GeocodingApiAddressGet();
+				//Toast.makeText(getApplicationContext(), "獲取經緯度"+map.getCameraPosition().target.latitude+","+map.getCameraPosition().target.longitude+"\n地址:"+locationName, Toast.LENGTH_SHORT).show();
+				
 			break;
 			case R.id.Search:
 				//textView2.setText(map.getMyLocation().toString());  //可用網路抓到GPS位置
-				if(!SearchText.getText().toString().equals("")){
-					GeocodingAPI LoacationAddress2 = new GeocodingAPI(getApplicationContext(),SearchText.getText().toString());
-					//textView2.setText("");
-					//locationName=LoacationAddress2.GeocodingApiAddressGet();
-			        //textView2.setText(textView2.getText()+"\n"+Address);
-			        LatLng SearchLocation = LoacationAddress2.GeocodingApiLatLngGet();
-			        //textView2.setText(textView2.getText()+"\n"+SearchLocation);
-			        map.animateCamera((CameraUpdateFactory.newLatLngZoom(SearchLocation,map.getMaxZoomLevel()-4)));
-			        map.addMarker(new MarkerOptions()
-	                .title("搜尋的位置")
-	                .snippet(locationName)
-	                .position(SearchLocation));
+					if(!SearchText.getText().toString().equals(LastTimeSearchName))
+					{
+						SearchPlace();
+						isdidSearch=true;
+						LastTimeSearchName = SearchText.getText().toString();
 					}
 			break;
 
@@ -782,6 +768,30 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	      }
 	    }
 	}; 
+	
+	private void SearchPlace(){
+		if(!SearchText.getText().toString().equals("")){
+			GeocodingAPI LoacationAddress2 = null;
+			LoacationAddress2 = new GeocodingAPI(getApplicationContext(),SearchText.getText().toString());
+			//textView2.setText("");
+			//locationName=LoacationAddress2.GeocodingApiAddressGet();
+	        //textView2.setText(textView2.getText()+"\n"+Address);
+	        LatLng SearchLocation = LoacationAddress2.GeocodingApiLatLngGet();
+	        //textView2.setText(textView2.getText()+"\n"+SearchLocation);
+	        if(SearchLocation!=null)
+	        {
+		        map.animateCamera((CameraUpdateFactory.newLatLngZoom(SearchLocation,map.getMaxZoomLevel()-4)));
+		        map.addMarker(new MarkerOptions()
+	            .title("搜尋的位置")
+	            .snippet(locationName)
+	            .position(SearchLocation));
+	        }
+	        else
+	        {
+	        	Toast.makeText(getApplicationContext(), "查無地點哦,換個詞試試看", Toast.LENGTH_SHORT).show();
+	        }
+		}
+	}
 }
 
 // * CLASS JUST FOR THE CUSTOM ALERT DIALOG
