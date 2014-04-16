@@ -141,6 +141,7 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 	private static int GpsUseTime = 0;
 	//是否有搜尋過地點
 	private static  Boolean isdidSearch = false;
+	private static  Boolean isDraped = false;
 	// 備忘錄ID
 	private int id1;
 	// 多選框
@@ -633,6 +634,13 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 				Longitude = LoacationAddress.GeocodingApiLatLngGet().longitude;
 				Latitude = LoacationAddress.GeocodingApiLatLngGet().latitude;
 			}
+			if(isDraped)
+			{
+				Longitude = map.getCameraPosition().target.longitude;
+				Latitude = map.getCameraPosition().target.latitude;
+				GeocodingAPI LoacationAddress = new GeocodingAPI(getApplicationContext(),Latitude+","+Longitude);
+				SearchText.setText(LoacationAddress.GeocodingApiAddressGet());
+			}
 			saveOrUpdate();
 			finish();
 			return true;
@@ -748,6 +756,8 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 			map.addMarker(new MarkerOptions()
             .title("目的地")
             .position(now));
+			if(isdidSearch)
+				isDraped =true;
 		}
 	};
 	
