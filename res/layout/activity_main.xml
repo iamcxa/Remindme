@@ -1,3 +1,4 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,30 +24,15 @@
         android:clickable="true"
         android:longClickable="true"
         android:overScrollMode="ifContentScrolls"
-        tools:context=".IconActivity" >
-
-    </android.support.v4.view.ViewPager>
-
-    <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tabs"
-        layout="@layout/fragment_main" />
+        tools:context=".IconActivity" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentTop="false"
-        android:layout_alignWithParentIfMissing="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

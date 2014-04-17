@@ -4,10 +4,10 @@
 
     <PreferenceCategory android:title="Category 1">
         <CheckBoxPreference
-            android:title="Checkbox"
-            android:defaultValue="false"
+            android:title="輸出debugmsg"
+            android:defaultValue="true"
             android:summary="True of False"
-            android:key="checkboxPref" />
+            android:key="debugmsg" android:enabled="true"/>
         </PreferenceCategory>                
         
     <PreferenceCategory android:title="Category 2">
@@ -16,14 +16,9 @@
             android:summary="Enter a string"
             android:defaultValue="[Enter a string here]"
             android:title="Edit Text"
-            android:key="editTextPref" />            
-        <RingtonePreference
-            android:name="Ringtone Preference"
-            android:summary="Select a ringtone"
-            android:title="Ringtones"
-            android:key="ringtonePref" />            
+            android:key="editTextPref" />          
         <PreferenceScreen                
-            android:title="Second Preference Screen"
+            android:title="Second Preferedebugmsgdebugmsgnce Screen"
             android:summary=
                 "Click here to go to the second Preference Screen"
             android:key="secondPrefScreenPref">                            
@@ -33,6 +28,15 @@
                 android:title="Edit Text (second Screen)"
                 android:key="secondEditTextPref" />                
         </PreferenceScreen>        
+    </PreferenceCategory>
+    <PreferenceCategory android:title="提醒設定">
+        <ListPreference />
+        <EditTextPreference />       
+        <RingtonePreference
+            android:name="Ringtone Preference"
+            android:summary="Select a ringtone"
+            android:title="Ringtones"
+            android:key="ringtonePref" />       
     </PreferenceCategory>  
           
 </PreferenceScreen>

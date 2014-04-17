@@ -7,13 +7,20 @@ import java.io.OptionalDataException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import com.google.android.gms.internal.t;
+
+import android.R.bool;
 import android.R.integer;
 import android.R.string;
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory.Options;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.webkit.WebView.FindListener;
 
 /**
  * @author cxa
@@ -37,26 +44,33 @@ public class CommonUtils {
 
 	// 預設排序常數
 	public static final String DEFAULT_SORT_ORDER = "created DESC";
+	
+	//廣播接收器
+	public static final String BC_ACTION = "me.iamcxa.remindme.TaskReceiver";
 
+	// SharedPreferences preferences;
+	public static SharedPreferences mPreferences;
+	
 	// debug msg TAG
 	public static final String debugMsgTag = "debugmsg";
-	// debug msg on/off
-	public static final int debugMsg = 1;
+	
+	// debug msg on/off, read from Shared Preferences XML file
+	public static boolean debugMsg ;
 
 	private CommonUtils() {
 	}
 
 	/***********************/
 	/** debug msg section **/
-	/***********************/
+	/***********************/	
 	public static final void debugMsg(int section, String msgs) {
-		if (debugMsg == 1) {
+		if (debugMsg == true) {
 			switch (section) {
 			case 0:
 				Log.w(debugMsgTag, " " + msgs);
 				break;
 			case 1:
-				Log.w(debugMsgTag, "thread " + msgs);
+				Log.w(debugMsgTag, "thread ID=" + msgs);
 				break;
 			case 999:
 				Log.w(debugMsgTag, "時間計算失敗!," + msgs);
@@ -67,7 +81,7 @@ public class CommonUtils {
 		}
 
 	}
-
+	
 	/***********************/
 	/** getDaysLeft **/
 	/***********************/

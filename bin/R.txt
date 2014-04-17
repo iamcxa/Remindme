@@ -386,7 +386,7 @@ int drawable widget_resize_handle_left 0x7f0200ed
 int drawable widget_resize_handle_right 0x7f0200ee
 int drawable widget_resize_handle_top 0x7f0200ef
 int drawable ws_icon_large 0x7f0200f0
-int id ListView 0x7f060031
+int id ListView 0x7f06002f
 int id OK 0x7f06000e
 int id Search 0x7f06000d
 int id SearchText 0x7f06000c
@@ -399,7 +399,6 @@ int id action_share 0x7f060043
 int id ampm 0x7f060006
 int id apply 0x7f060045
 int id buttonSubmit 0x7f060017
-int id cardListView1 0x7f060030
 int id card_content_expand_layout 0x7f060027
 int id card_cursor_main_inner_subtitle 0x7f060022
 int id card_cursor_main_inner_thirdtitle 0x7f060023
@@ -421,13 +420,14 @@ int id card_shadow_view 0x7f06001d
 int id card_thumb_and_content_layout 0x7f06002b
 int id card_thumbnail_image 0x7f06001e
 int id card_thumbnail_layout 0x7f060025
-int id carddemo_list_colors 0x7f06002f
 int id carddemo_list_cursor 0x7f060028
 int id date 0x7f060007
 int id desc 0x7f060012
 int id editTextTittle 0x7f06000a
 int id editTextbox 0x7f060011
-int id fragment_main 0x7f060032
+int id fragment_local 0x7f060030
+int id fragment_main 0x7f060031
+int id fragment_time 0x7f060032
 int id gamesicons 0x7f06003e
 int id hour 0x7f060005
 int id hybrid 0x7f060004
@@ -484,21 +484,17 @@ int layout card_overlay_layout 0x7f03000f
 int layout card_thumbnail_layout 0x7f030010
 int layout card_thumbnail_overlay_layout 0x7f030011
 int layout card_undo_layout 0x7f030012
-int layout demo_fragment_colors 0x7f030013
-int layout fragment_cardtest 0x7f030014
-int layout fragment_deadline 0x7f030015
-int layout fragment_distance 0x7f030016
-int layout fragment_listview 0x7f030017
-int layout fragment_locations 0x7f030018
-int layout fragment_main 0x7f030019
-int layout fragment_overall 0x7f03001a
-int layout inner_base_expand 0x7f03001b
-int layout inner_base_header 0x7f03001c
-int layout inner_base_main 0x7f03001d
-int layout list_card_layout 0x7f03001e
-int layout list_card_thumbnail_layout 0x7f03001f
-int layout list_card_undo_message 0x7f030020
-int layout preference 0x7f030021
+int layout fragment_listview 0x7f030013
+int layout fragment_local 0x7f030014
+int layout fragment_main 0x7f030015
+int layout fragment_time 0x7f030016
+int layout inner_base_expand 0x7f030017
+int layout inner_base_header 0x7f030018
+int layout inner_base_main 0x7f030019
+int layout list_card_layout 0x7f03001a
+int layout list_card_thumbnail_layout 0x7f03001b
+int layout list_card_undo_message 0x7f03001c
+int layout preference 0x7f03001d
 int menu contact_popup 0x7f0e0000
 int menu editor_activity_actionbar 0x7f0e0001
 int menu extras_popup 0x7f0e0002
@@ -703,7 +699,7 @@ int[] styleable AdsAttrs { 0x7f010000, 0x7f010001, 0x7f010002 }
 int styleable AdsAttrs_adSize 0
 int styleable AdsAttrs_adSizes 1
 int styleable AdsAttrs_adUnitId 2
-int[] styleable ForegroundLinearLayout { 0x01010109, 0x01010200, 0x010103f1 }
+int[] styleable ForegroundLinearLayout { 0x01010109, 0x01010200, 0x01010405 }
 int styleable ForegroundLinearLayout_android_foreground 0
 int styleable ForegroundLinearLayout_android_foregroundGravity 1
 int styleable ForegroundLinearLayout_android_foregroundInsidePadding 2

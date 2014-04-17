@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ *******************************************************************************
   ~   Copyright (c) 2013-2014 Gabriele Mariotti.
@@ -16,21 +14,21 @@
   ~   See the License for the specific language governing permissions and
   ~   limitations under the License.
   ~  *****************************************************************************
-  -->
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:card="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    <!-- The main content view -->
 
-        <!-- You can customize this layout.
-         You need to have in your layout a `CardView` with the ID `list_cardId` -->
-        <it.gmariotti.cardslib.library.view.CardListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:id="@+id/carddemo_list_colors"
-            card:list_card_layout_resourceID="@layout/list_card_layout"/>
+    <FrameLayout
+        android:id="@+id/fragment_local"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-</LinearLayout>
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+
+</RelativeLayout>

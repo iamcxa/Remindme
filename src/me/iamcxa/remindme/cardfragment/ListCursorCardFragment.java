@@ -24,13 +24,16 @@ import com.google.android.gms.internal.el;
 
 import me.iamcxa.remindme.CommonUtils;
 import me.iamcxa.remindme.R;
+import me.iamcxa.remindme.RemindmeTaskEditor;
 import me.iamcxa.remindme.CommonUtils.RemindmeTaskCursor;
+import me.iamcxa.remindme.service.TaskSortingService;
 import android.R.integer;
 import android.R.string;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -59,10 +62,10 @@ import it.gmariotti.cardslib.library.view.CardListView;
 public class ListCursorCardFragment extends BaseFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	MyCursorCardAdapter mAdapter;
-	CardListView mListView;
-	ScrollView mScrollView;
+	private MyCursorCardAdapter mAdapter;
+	private CardListView mListView;
 
+	public static String[] projection = RemindmeTaskCursor.PROJECTION;
 	public static String selection = null;
 	public static String sortOrder = CommonUtils.DEFAULT_SORT_ORDER;
 	public static String[] selectionArgs;
@@ -79,6 +82,8 @@ public class ListCursorCardFragment extends BaseFragment implements
 			mListView.setAdapter(mAdapter);
 		}
 
+		getLoaderManager();
+		LoaderManager.enableDebugLogging(true);
 		// Force start background query to load sessions
 		getLoaderManager().restartLoader(0, null, this);
 	}
@@ -112,8 +117,7 @@ public class ListCursorCardFragment extends BaseFragment implements
 
 		Loader<Cursor> loader = null;
 		loader = new CursorLoader(getActivity(), CommonUtils.CONTENT_URI,
-				RemindmeTaskCursor.PROJECTION, selection, selectionArgs,
-				sortOrder);
+				projection, selection, selectionArgs, sortOrder);
 		return loader;
 	}
 
@@ -140,7 +144,7 @@ public class ListCursorCardFragment extends BaseFragment implements
 		}
 
 		@Override
-		protected Card getCardFromCursor(Cursor cursor) {
+		protected Card getCardFromCursor(final Cursor cursor) {
 			MyCursorCard card = new MyCursorCard(super.getContext());
 			setCardFromCursor(card, cursor);
 
@@ -192,6 +196,31 @@ public class ListCursorCardFragment extends BaseFragment implements
 									"Card id=" + card.getId()
 											+ "Click on Content Area",
 									Toast.LENGTH_SHORT).show();
+
+							int id1 = Integer.parseInt(card.getId());
+							String date1 = cursor.getString(2);
+							String time1 = cursor.getString(2);
+							String content = cursor.getString(3);
+							String endTime = cursor
+									.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.EndTime);
+							String endDate = cursor
+									.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.EndDate);
+							String LocationName = cursor
+									.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.LocationName);
+
+							Bundle b = new Bundle();
+							b.putInt("_id", id1);
+							b.putString("date1", date1);
+							b.putString("time1", time1);
+							b.putString("content", content);
+							b.putString("LocationName", LocationName);
+							b.putString("endDate", endDate);
+							b.putString("endTime", endTime);
+
+							Intent intent = new Intent();
+							intent.setClass(getActivity(),
+									RemindmeTaskEditor.class);
+							startActivity(intent);
 						}
 					});
 
@@ -214,9 +243,7 @@ public class ListCursorCardFragment extends BaseFragment implements
 		private void setCardFromCursor(MyCursorCard card, Cursor cursor) {
 			// 準備常數
 			CommonUtils.debugMsg(0, "prepare data from cursor...");
-			boolean NoLocation = cursor
-					.isNull(CommonUtils.RemindmeTaskCursor.IndexColumns.LocationName);
-			boolean NoExtrainfo = cursor
+			boolean Extrainfo = cursor
 					.isNull(CommonUtils.RemindmeTaskCursor.IndexColumns.other);
 			int CID = cursor
 					.getInt(CommonUtils.RemindmeTaskCursor.IndexColumns.KEY_ID);
@@ -230,6 +257,8 @@ public class ListCursorCardFragment extends BaseFragment implements
 					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.EndDate);
 			String LocationName = cursor
 					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.LocationName);
+			String extraInfo = cursor
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.other);
 			long dayLeft = CommonUtils.getDaysLeft(endDate);
 			// int dayLeft = Integer.parseInt("" + dayLeftLong);
 
@@ -259,34 +288,38 @@ public class ListCursorCardFragment extends BaseFragment implements
 				card.DateTime = endDate;
 			}
 
-			CommonUtils.debugMsg(0, "Location=\"" + LocationName + "\"");
-			CommonUtils.debugMsg(0, "dintence=" + dintence);
 			// 小圖標顯示 - 判斷是否存有地點資訊
-			if (!NoLocation) {
+			CommonUtils.debugMsg(0, "Location=\"" + LocationName + "\"");
+			if ((LocationName.length()) > 1) {
 				card.resourceIdThumb = R.drawable.map_marker;
-				// 距離與地點資訊
-				if (dintence == null) {
-					card.LocationName = LocationName;
-				} else {
-					card.LocationName = "距離 " + dintence + " 公里 - "
-							+ LocationName;
-				}
-				// 可展開額外資訊欄位
-			} else if (!NoExtrainfo) {
-				card.resourceIdThumb = R.drawable.outline_star_act;
-				// 額外資訊提示 - 第四行
-				card.Notifications = cursor.getString(0);
-
 			} else {
 				card.resourceIdThumb = R.drawable.tear_of_calendar;
 				card.LocationName = null;
 			}
 
-			// This provides a simple (and useless) expand area
-			CardExpand expand = new CardExpand(getActivity());
-			// Set inner title in Expand Area
-			expand.setTitle(getString(R.string.app_name));
-			card.addCardExpand(expand);
+			// 距離與地點資訊
+			CommonUtils.debugMsg(0, "dintence=" + dintence);
+			if (dintence == null) {
+				card.LocationName = LocationName;
+			} else {
+				card.LocationName = "距離 " + dintence + " 公里 - " + LocationName;
+			}
+
+			// 可展開額外資訊欄位
+			CommonUtils.debugMsg(0, "isExtrainfo=" + Extrainfo);
+			card.Notifications = cursor
+					.getString(CommonUtils.RemindmeTaskCursor.IndexColumns.CalendarID);
+			if (!Extrainfo) {
+				card.resourceIdThumb = R.drawable.outline_star_act;
+				// 額外資訊提示 - 第四行
+
+				// This provides a simple (and useless) expand area
+				CardExpand expand = new CardExpand(getActivity());
+				// Set inner title in Expand Area
+				expand.setTitle(getString(R.string.app_name));
+				card.addCardExpand(expand);
+			}
+			card.Notifications = cursor.getString(0);
 
 			// 依照權重給予卡片顏色
 			if (cursor

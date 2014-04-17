@@ -16,7 +16,7 @@ public class RemindmePreference extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preference);
+		setContentView(R.layout.activity_main);
 
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -24,7 +24,7 @@ public class RemindmePreference extends Activity {
 
 		RemindmePreferenceFragment fragment11 = new RemindmePreferenceFragment();
 		fragmentTransaction.replace(android.R.id.content, fragment11);
-		fragmentTransaction.addToBackStack(null);
+		//fragmentTransaction.addToBackStack(null);
 		// fragmentTransaction.setTransition(4097);
 		fragmentTransaction.commit();
 	}

@@ -439,13 +439,13 @@ public class RemindmeTaskEditor extends FragmentActivity  implements  GPSCallbac
 
 	// 設定通知提示
 	private void setAlarm(boolean flag) {
-		final String BC_ACTION = "com.amaker.ch17.TaskReceiver";
+		
 		// 取得AlarmManager實例
 		final AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
 		// 實例化Intent
 		Intent intent = new Intent();
 		// 設定Intent action屬性
-		intent.setAction(BC_ACTION);
+		intent.setAction(CommonUtils.BC_ACTION);
 		intent.putExtra("msg", content);
 		// 實例化PendingIntent
 		final PendingIntent pi = PendingIntent.getBroadcast(

@@ -1,5 +1,6 @@
 package me.iamcxa.remindme;
 
+import me.iamcxa.remindme.provider.AlarmProvider;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +14,11 @@ public class RemindmeReciver extends BroadcastReceiver {
 
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-		intent.setClass(context, RemindmeReciver.class);
+		intent.setClass(context, AlarmProvider.class);
 
 		context.startActivity(intent);
+		
+		
 
 	}
 }

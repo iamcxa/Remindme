@@ -5,28 +5,38 @@ package me.iamcxa.remindme;
 
 import java.util.Locale;
 
-import me.iamcxa.remindme.cardfragment.CardFragmentLoader;
-import me.iamcxa.remindme.cardfragment.CopyOfListCursorCardFragment;
+import me.iamcxa.remindme.cardfragment.ListCursorCardFragmentLocal;
+import me.iamcxa.remindme.cardfragment.ListCursorCardFragmentTime;
 import me.iamcxa.remindme.cardfragment.ListCursorCardFragment;
 import me.iamcxa.remindme.cardfragment.ListviewFragment;
+import me.iamcxa.remindme.fragment.CardFragmentLoader0;
+import me.iamcxa.remindme.fragment.CardFragmentLoader1;
+import me.iamcxa.remindme.fragment.CardFragmentLoader2;
+import me.iamcxa.remindme.service.TaskSortingService;
+import android.R.integer;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.astuetz.viewpager.extensions.PagerSlidingTabStrip;
+import com.google.android.gms.drive.internal.r;
 
 /**
  * @author cxa Main Activity
@@ -43,8 +53,11 @@ public class RemindmeMainActivity extends FragmentActivity {
 	private static ShareActionProvider mShareActionProvider;
 	// private Intent mShareIntent;
 	// private static SearchView mSearchView;
-	ProgressBar pBar;
-	ProgressDialog psDialog;
+	private static ProgressBar pBar;
+	private static ProgressDialog psDialog;
+	private int threadID;
+	private static android.app.FragmentManager fragmentManager;
+	public static int layoutID = 0;
 
 	/**********************/
 	/** onCreate LOCALE **/
@@ -52,25 +65,38 @@ public class RemindmeMainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setLoding("ON");
+		CommonUtils.mPreferences = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		CommonUtils.debugMsg = CommonUtils.mPreferences.getBoolean(
+				CommonUtils.debugMsgTag, true);
+
 		// 設定：layout視圖
 		setContentView(R.layout.activity_main);
-		CommonUtils.debugMsg(1, "0 onCreate");
-		pBar = (ProgressBar) findViewById(R.id.progressBar1);
-		pBar.setVisibility(View.VISIBLE);
-		psDialog = ProgressDialog.show(this, "", "......");
+		// pBar = (ProgressBar) findViewById(R.id.progressBar1);
+		CommonUtils.debugMsg(0, "=========================");
+		threadID = android.os.Process.getThreadPriority(android.os.Process
+				.myTid());
+		CommonUtils.debugMsg(1, threadID + " onCreate");
 
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				CommonUtils.debugMsg(1, "0 pre-setViewComponent");
+				threadID = android.os.Process
+						.getThreadPriority(android.os.Process.myTid());
+				CommonUtils.debugMsg(1, threadID + " pre-setViewComponent");
 				// 設定：頁面元件
 				setViewComponent();
 			}
 		}).start();
 
+		Intent intent = new Intent(this, TaskSortingService.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startService(intent);
+
 		if (savedInstanceState != null) {
-			// setFragment();
-			setLodingOff();
+			setFragment(3, 0);
+			setLoding("OFF");
 		}
 	}
 
@@ -78,20 +104,19 @@ public class RemindmeMainActivity extends FragmentActivity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(BUNDLE_SELECTEDFRAGMENT, pager.getCurrentItem());
-		CommonUtils.debugMsg(0,""+pager.getCurrentItem());
 	}
 
-	/**********************/
+	/*************************/
 	/** onCreateOptionsMenu **/
-	/**********************/
+	/*************************/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// 由main_activity_actionbar.xml讀取按鈕資訊
 		getMenuInflater().inflate(R.menu.main_activity_actionbar, menu);
 
 		// 定義：搜尋按鈕
-		 MenuItem actionSearch = menu.findItem(R.id.action_search);
-		 actionSearch.setVisible(false);
+		MenuItem actionSearch = menu.findItem(R.id.action_search);
+		actionSearch.setVisible(false);
 		// 設定：點擊接收器
 		// mSearchView = (SearchView) actionSearch.getActionView();
 		// setSearchView(actionSearch);
@@ -104,7 +129,7 @@ public class RemindmeMainActivity extends FragmentActivity {
 		// 定義：重整按鈕
 		MenuItem actionRefresh = menu.findItem(R.id.action_refresh);
 		// 設定：點擊接收器
-		actionRefresh.setOnMenuItemClickListener(btnRefreshAddClick);
+		actionRefresh.setOnMenuItemClickListener(btnRefreshClick);
 
 		/*
 		 * // 定義：分享按鈕 MenuItem actionShare = menu.findItem(R.id.action_share);
@@ -122,7 +147,7 @@ public class RemindmeMainActivity extends FragmentActivity {
 		// 定義：設置按鈕
 		MenuItem actionPref = menu.findItem(R.id.action_settings);
 		// 設定：點擊接收器
-		actionPref.setOnMenuItemClickListener(menuActionPrefClick);
+		actionPref.setOnMenuItemClickListener(btnPrefClick);
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -134,12 +159,15 @@ public class RemindmeMainActivity extends FragmentActivity {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				CommonUtils.debugMsg(1,"1 setViewComponent");
+				threadID = android.os.Process
+						.getThreadPriority(android.os.Process.myTid());
+				CommonUtils.debugMsg(1, threadID + " setViewComponent");
 				// 定義：tabs
 				tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 				pager = (ViewPager) findViewById(R.id.pager);
 				adapter = new MyPagerAdapter(getSupportFragmentManager());
-
+				CommonUtils.debugMsg(0,
+						"adapter.getCount=" + adapter.getCount());
 				// 設定：頁面margin
 				final int pageMargin = (int) TypedValue.applyDimension(
 						TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
@@ -153,60 +181,116 @@ public class RemindmeMainActivity extends FragmentActivity {
 				tabs.setViewPager(pager);
 			}
 		}).start();
-
 	}
 
 	/**********************/
 	/** setFragment **/
 	/**********************/
 	// To ensure the target frame will show the right fragment.
-	private void setFragment(final int FragmentPosition) {
-
+	public void setFragment(final int MODE, final int FragmentPosition) {
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
-				CommonUtils.debugMsg(1, "2 setFragment");
-				android.app.FragmentManager fragmentManager = getFragmentManager();
-				FragmentTransaction fragmentTransaction = fragmentManager
+				threadID = android.os.Process.getThreadPriority(android.os.Process
+						.myTid());
+				CommonUtils.debugMsg(1, threadID + " setFragment " + FragmentPosition);
+				
+				fragmentManager = getFragmentManager();
+				FragmentTransaction	 fragmentTransaction = fragmentManager
 						.beginTransaction();
-				switch (FragmentPosition) {
+
+				// 設定卡片
+				ListCursorCardFragment cardview = new ListCursorCardFragment();
+				ListCursorCardFragmentTime cardview1 = new ListCursorCardFragmentTime();
+				ListCursorCardFragmentLocal cardview2 = new ListCursorCardFragmentLocal();
+				ListCursorCardFragment.sortOrder = CommonUtils.RemindmeTaskCursor.KeyColumns.PriorityWeight;
+				ListCursorCardFragmentTime.sortOrder = CommonUtils.RemindmeTaskCursor.KeyColumns.EndDate;
+				ListCursorCardFragmentLocal.sortOrder = CommonUtils.RemindmeTaskCursor.KeyColumns.Distance;
+				ListCursorCardFragment.selection = null;
+				ListCursorCardFragmentTime.selection = "TaskLocationName = \"\"";
+				ListCursorCardFragmentLocal.selection = "TaskLocationName <> \"\"";
+
+				// 模式 - 移除或新增Fragment
+				switch (MODE) {
 				case 0:
-					ListCursorCardFragment cardview = new ListCursorCardFragment();
-					fragmentTransaction.replace(R.id.fragment_main, cardview);
+					// Remove Fragment
+					switch (FragmentPosition) {
+					case 0:
+						fragmentTransaction.remove(cardview);
+						break;
+					case 1:
+						fragmentTransaction.remove(cardview1);
+						break;
+					case 2:
+						fragmentTransaction.remove(cardview2);
+						break;
+					}
+					fragmentTransaction.commit();
 					break;
+
 				case 1:
-					ListCursorCardFragment cardview1 = new ListCursorCardFragment();
-					fragmentTransaction.replace(R.id.fragment_main, cardview1);
-				default:
+					// Replace Fragment
+					switch (FragmentPosition) {
+					case 0:
+						fragmentTransaction.replace(R.id.fragment_local, cardview2,"cardview2");
+						break;
+					case 1:
+						fragmentTransaction.replace(R.id.fragment_time, cardview1,"cardview1");
+						break;
+					case 2:
+						fragmentTransaction.replace(R.id.fragment_main, cardview,"cardview");
+						break;
+					}
+					fragmentTransaction.commit();
+					break;
+				case 3:
+					int i;
+					for (i = 0; i < (adapter.getCount())-1; i++) {
+						setFragment(0, i);
+						setFragment(1, i);
+					}
 					break;
 				}
 
-				fragmentTransaction
-						.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-				fragmentTransaction.commit();
-				setLodingOff();			
+				setLoding("OFF");
 			}
 		}).start();
-		
 
 	}
 
 	/**********************/
-	/** OsetupSearchView **/
+	/** setViewComponent **/
 	/**********************/
-	private void setSearchView(MenuItem searchItem) {
-		// TODO Auto-generated method stub
+	private void setDataToEditor() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				threadID = android.os.Process
+						.getThreadPriority(android.os.Process.myTid());
+				CommonUtils.debugMsg(1, +threadID + " setDatatoEditor");
+
+			}
+		}).start();
+	}
+
+	/************************/
+	/** set Lode dialog On **/
+	/************************/
+	private void setLoding(String MODE) {
+		if (MODE == "ON") {
+			psDialog = ProgressDialog.show(this, "", "......");
+			/*
+			 * if (!(pBar == null)) { pBar.setVisibility(View.VISIBLE); }
+			 */
+		} else if (MODE == "OFF") {
+			psDialog.dismiss();
+			/*
+			 * if (!(pBar == null)) { pBar.setVisibility(View.GONE); }
+			 */
+		}
 
 	}
-	
-	/**********************/
-	/** setLodingOff **/
-	/**********************/
-	private void setLodingOff() {
-		psDialog.dismiss();
-		pBar.setVisibility(View.GONE);
-	}
+
 	/**********************/
 	/** btnActionAddClick **/
 	/**********************/
@@ -227,7 +311,7 @@ public class RemindmeMainActivity extends FragmentActivity {
 	/************************/
 	/** btnRefreshAddClick **/
 	/************************/
-	private MenuItem.OnMenuItemClickListener btnRefreshAddClick = new MenuItem.OnMenuItemClickListener() {
+	private MenuItem.OnMenuItemClickListener btnRefreshClick = new MenuItem.OnMenuItemClickListener() {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 			Toast.makeText(getApplication(), item.getTitle(),
@@ -235,7 +319,9 @@ public class RemindmeMainActivity extends FragmentActivity {
 			// Intent intent = new Intent();
 			// intent.setClass(getApplication(), testcard.class);
 			// startActivity(intent);
-			// setFragment();
+			setLoding("ON");
+			setFragment(3, 0);
+
 			return false;
 		}
 	};
@@ -243,7 +329,7 @@ public class RemindmeMainActivity extends FragmentActivity {
 	/**********************/
 	/** menuActionPrefClick **/
 	/**********************/
-	private MenuItem.OnMenuItemClickListener menuActionPrefClick = new MenuItem.OnMenuItemClickListener() {
+	private MenuItem.OnMenuItemClickListener btnPrefClick = new MenuItem.OnMenuItemClickListener() {
 		@Override
 		public boolean onMenuItemClick(MenuItem item) {
 			// Display the fragment as the main content.
@@ -252,7 +338,7 @@ public class RemindmeMainActivity extends FragmentActivity {
 					Toast.LENGTH_SHORT).show();
 
 			Intent intent = new Intent();
-			intent.setClass(getApplication(), RemindmePreference.class);
+			intent.setClass(getApplicationContext(), RemindmePreference.class);
 			startActivity(intent);
 
 			return false;
@@ -262,7 +348,7 @@ public class RemindmeMainActivity extends FragmentActivity {
 	/**************************/
 	/** Class MyPagerAdapter **/
 	/**************************/
-	public class MyPagerAdapter extends FragmentPagerAdapter {
+	public class MyPagerAdapter extends FragmentStatePagerAdapter {
 		// 定義各tab名稱
 		private final int[] TITLES = { R.string.tab1, R.string.tab2,
 				R.string.tab3 };
@@ -295,15 +381,16 @@ public class RemindmeMainActivity extends FragmentActivity {
 			Fragment f = new Fragment();
 			switch (position) {
 			case 0:
-				f = new CardFragmentLoader();
-				setFragment(0);
+				f = new CardFragmentLoader0();
+				setFragment(1, 0);
 				break;
 			case 1:
-				f = new CardFragmentLoader();
-				//setFragment(1);
+				f = new CardFragmentLoader1();
+				setFragment(1, 1);
 				break;
 			case 2:
-				f = new ListviewFragment();
+				f = new CardFragmentLoader2();
+				setFragment(1, 2);
 				break;
 			}
 			return f;

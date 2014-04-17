@@ -702,7 +702,7 @@ Button Header
         public static final int ws_icon_large=0x7f0200f0;
     }
     public static final class id {
-        public static final int ListView=0x7f060031;
+        public static final int ListView=0x7f06002f;
         public static final int OK=0x7f06000e;
         public static final int Search=0x7f06000d;
         public static final int SearchText=0x7f06000c;
@@ -715,7 +715,6 @@ Button Header
         public static final int ampm=0x7f060006;
         public static final int apply=0x7f060045;
         public static final int buttonSubmit=0x7f060017;
-        public static final int cardListView1=0x7f060030;
         public static final int card_content_expand_layout=0x7f060027;
         public static final int card_cursor_main_inner_subtitle=0x7f060022;
         public static final int card_cursor_main_inner_thirdtitle=0x7f060023;
@@ -737,13 +736,14 @@ Button Header
         public static final int card_thumb_and_content_layout=0x7f06002b;
         public static final int card_thumbnail_image=0x7f06001e;
         public static final int card_thumbnail_layout=0x7f060025;
-        public static final int carddemo_list_colors=0x7f06002f;
         public static final int carddemo_list_cursor=0x7f060028;
         public static final int date=0x7f060007;
         public static final int desc=0x7f060012;
         public static final int editTextTittle=0x7f06000a;
         public static final int editTextbox=0x7f060011;
-        public static final int fragment_main=0x7f060032;
+        public static final int fragment_local=0x7f060030;
+        public static final int fragment_main=0x7f060031;
+        public static final int fragment_time=0x7f060032;
         public static final int gamesicons=0x7f06003e;
         public static final int hour=0x7f060005;
         public static final int hybrid=0x7f060004;
@@ -811,21 +811,17 @@ Button Header
         public static final int card_thumbnail_layout=0x7f030010;
         public static final int card_thumbnail_overlay_layout=0x7f030011;
         public static final int card_undo_layout=0x7f030012;
-        public static final int demo_fragment_colors=0x7f030013;
-        public static final int fragment_cardtest=0x7f030014;
-        public static final int fragment_deadline=0x7f030015;
-        public static final int fragment_distance=0x7f030016;
-        public static final int fragment_listview=0x7f030017;
-        public static final int fragment_locations=0x7f030018;
-        public static final int fragment_main=0x7f030019;
-        public static final int fragment_overall=0x7f03001a;
-        public static final int inner_base_expand=0x7f03001b;
-        public static final int inner_base_header=0x7f03001c;
-        public static final int inner_base_main=0x7f03001d;
-        public static final int list_card_layout=0x7f03001e;
-        public static final int list_card_thumbnail_layout=0x7f03001f;
-        public static final int list_card_undo_message=0x7f030020;
-        public static final int preference=0x7f030021;
+        public static final int fragment_listview=0x7f030013;
+        public static final int fragment_local=0x7f030014;
+        public static final int fragment_main=0x7f030015;
+        public static final int fragment_time=0x7f030016;
+        public static final int inner_base_expand=0x7f030017;
+        public static final int inner_base_header=0x7f030018;
+        public static final int inner_base_main=0x7f030019;
+        public static final int list_card_layout=0x7f03001a;
+        public static final int list_card_thumbnail_layout=0x7f03001b;
+        public static final int list_card_undo_message=0x7f03001c;
+        public static final int preference=0x7f03001d;
     }
     public static final class menu {
         public static final int contact_popup=0x7f0e0000;
@@ -1300,7 +1296,7 @@ containing a value of this type.
            @see #ForegroundLinearLayout_android_foregroundInsidePadding
          */
         public static final int[] ForegroundLinearLayout = {
-            0x01010109, 0x01010200, 0x010103f1
+            0x01010109, 0x01010200, 0x01010405
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#foreground}

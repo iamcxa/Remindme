@@ -141,12 +141,12 @@ public final class R {
 		public static final int card_thumbnail_layout = 0x7f030010;
 		public static final int card_thumbnail_overlay_layout = 0x7f030011;
 		public static final int card_undo_layout = 0x7f030012;
-		public static final int inner_base_expand = 0x7f03001b;
-		public static final int inner_base_header = 0x7f03001c;
-		public static final int inner_base_main = 0x7f03001d;
-		public static final int list_card_layout = 0x7f03001e;
-		public static final int list_card_thumbnail_layout = 0x7f03001f;
-		public static final int list_card_undo_message = 0x7f030020;
+		public static final int inner_base_expand = 0x7f030017;
+		public static final int inner_base_header = 0x7f030018;
+		public static final int inner_base_main = 0x7f030019;
+		public static final int list_card_layout = 0x7f03001a;
+		public static final int list_card_thumbnail_layout = 0x7f03001b;
+		public static final int list_card_undo_message = 0x7f03001c;
 	}
 	public static final class plurals {
 		public static final int card_selected_items = 0x7f0a0001;
@@ -188,7 +188,7 @@ public final class R {
 		public static final int list_card_thumbnail = 0x7f0b0018;
 	}
 	public static final class styleable {
-		public static final int[] ForegroundLinearLayout = { 0x01010109, 0x01010200, 0x010103f1 };
+		public static final int[] ForegroundLinearLayout = { 0x01010109, 0x01010200, 0x01010405 };
 		public static final int ForegroundLinearLayout_android_foreground = 0;
 		public static final int ForegroundLinearLayout_android_foregroundGravity = 1;
 		public static final int ForegroundLinearLayout_android_foregroundInsidePadding = 2;
